@@ -1,0 +1,16 @@
+{
+  "name": "vuepress-minimal-mistakes",
+  "version": "0.0.1",
+  "description": "Vuepress implementation of the theme Minimal Mistakes.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "golden-flow",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^2.0.0-beta.36"
+  }
+}
