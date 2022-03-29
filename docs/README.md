@@ -3,7 +3,7 @@ title: "Markup: HTML Tags and Formatting"
 excerpt: A variety of common markup showing how the theme styles them.
 ---
 <figure>
-  <img src="{{ '/assets/images/fallback-teaser.jpg' | absolute_url }}" alt="Fallback teaser">
+  <img src="https://vuepress.vuejs.org/hero.png" alt="Fallback teaser">
   <figcaption>This is my fallback teaser.</figcaption>
 </figure>
 
@@ -167,7 +167,7 @@ You can also add the `.notice` class to a `<div>` element.
 
 <div class="notice--info">
   <h4>Notice Headline:</h4>
-  {{ notice-text | markdownify }}
+  Hello
 </div>
 
 

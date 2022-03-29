@@ -35,5 +35,4 @@ import DefaultLayout from './DefaultLayout.vue'
 import { usePageFrontmatter } from '@vuepress/client'
 
 const { title, excerpt } = usePageFrontmatter().value
-console.log(excerpt)
 </script>
