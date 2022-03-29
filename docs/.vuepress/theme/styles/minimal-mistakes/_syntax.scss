@@ -2,7 +2,7 @@
    Syntax highlighting
    ========================================================================== */
 
-div.highlighter-rouge,
+div[class^='language-'],
 figure.highlight {
   position: relative;
   margin-bottom: 1em;
@@ -12,11 +12,27 @@ figure.highlight {
   font-size: $type-size-6;
   line-height: 1.8;
   border-radius: $border-radius;
+  display: flex;
+  overflow-x: auto;
+
+  > .line-numbers {
+    background-color: #121212;
+    color: #5a5854;
+    text-align: right;
+    padding: 1em 0 1em 1em;
+    flex-basis: 1em;
+    order: 1;
+  }
 
   > pre,
-  pre.highlight {
+  pre.highlight,
+  pre.shiki {
+    flex-grow: 1;
+    order: 2;
     margin: 0;
     padding: 1em;
+    border-radius: $border-radius;
+    overflow-x: visible;
   }
 }
 
@@ -318,7 +334,8 @@ figure.highlight {
 }
 
 .gist {
-  th, td {
+  th,
+  td {
     border-bottom: 0;
   }
 }

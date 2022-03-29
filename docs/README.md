@@ -1,6 +1,7 @@
 ---
 title: "Markup: HTML Tags and Formatting"
 excerpt: A variety of common markup showing how the theme styles them.
+toc: true
 ---
 <figure>
   <img src="https://vuepress.vuejs.org/hero.png" alt="Fallback teaser">
@@ -9,7 +10,6 @@ excerpt: A variety of common markup showing how the theme styles them.
 
 
 
-# Header one
 
 ## Header two
 
@@ -20,6 +20,55 @@ excerpt: A variety of common markup showing how the theme styles them.
 ##### Header five
 
 ###### Header six
+
+## Code
+
+```javascript
+document
+  .getElementById('#button')
+  .addEventListener('click', (event) => { 
+    event.target.innerHTML = 'Clicked!' 
+  })
+```
+
+```cpp
+#include <iostream>
+#include <memory>
+
+typedef std::string Data;
+
+struct string {
+  std::unique_ptr<Data> p;
+  // 也可以定义拷贝构造和移动构造函数，这里从略
+  string(const char* str="") : p(new Data(str)) {}
+  string& operator=(const string& rhs) {  // 1: 拷贝赋值
+    this->p.reset(new Data(*rhs.p));  // 新建 Data，拷贝了 rhs 的资源
+    return *this;
+  }
+  string& operator=(string&& rhs) {       // 2: 移动赋值
+    this->p = std::move(rhs.p);       // 没有新建 Data，直接拿走了 rhs 的资源
+    return *this;
+  }
+};
+
+std::ostream& operator<<(std::ostream& out, const string& str) {
+  if (str.p) out << *str.p;
+  return out;
+}
+
+int main() {
+  string a = "Hello", b = "World";
+  std::cout << a << " " << b << std::endl;  // Hello World
+
+  a = b;      // b 是 lvalue，拷贝赋值
+  std::cout << a << " " << b << std::endl;  // World World
+  b = "War";  // "War" 是 rvalue，移动赋值
+  std::cout << a << " " << b << std::endl;  // World War
+  a = std::move(b);  // 将 b 转换为 rvalue，强制移动赋值
+  std::cout << a << " " << b << std::endl;  // War
+}
+```
+
 
 ## Blockquotes
 

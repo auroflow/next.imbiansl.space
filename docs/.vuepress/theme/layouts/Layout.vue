@@ -22,6 +22,7 @@
           </header>
 
           <section class="page__content" itemprop="text">
+            <TableOfContents v-if="toc" />
             <Content />
           </section>
         </div>
@@ -32,7 +33,8 @@
 
 <script setup lang="ts">
 import DefaultLayout from './DefaultLayout.vue'
+import TableOfContents from '../components/TableOfContents.vue'
 import { usePageFrontmatter } from '@vuepress/client'
 
-const { title, excerpt } = usePageFrontmatter().value
+const { title, excerpt, toc } = usePageFrontmatter().value
 </script>
