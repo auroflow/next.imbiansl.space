@@ -9,7 +9,7 @@ toc: true
 </figure>
 
 
-
+# Header one
 
 ## Header two
 
@@ -31,7 +31,7 @@ document
   })
 ```
 
-```cpp
+```cpp{1,6-8}
 #include <iostream>
 #include <memory>
 
@@ -80,8 +80,9 @@ Multi line blockquote with a cite reference:
 
 > People think focus means saying yes to the thing you've got to focus on. But that's not what it means at all. It means saying no to the hundred other good ideas that there are. You have to pick carefully. I'm actually as proud of the things we haven't done as the things I have done. Innovation is saying no to 1,000 things.
 
+::: small
 <cite>Steve Jobs</cite> --- Apple Worldwide Developers' Conference, 1997
-{: .small}
+:::
 
 photo gallery:
 
@@ -160,21 +161,21 @@ Make any link standout more when applying the `.btn .btn--primary` classes.
 
 | Button Type   | Example | Class | Kramdown |
 | ------        | ------- | ----- | ------- |
-| Default       | [Text](#link){: .btn} | `.btn` | `[Text](#link){: .btn}` |
-| Primary       | [Text](#link){: .btn .btn--primary} | `.btn .btn--primary` | `[Text](#link){: .btn .btn--primary}` |
-| Success       | [Text](#link){: .btn .btn--success} | `.btn .btn--success` | `[Text](#link){: .btn .btn--success}` |
-| Warning       | [Text](#link){: .btn .btn--warning} | `.btn .btn--warning` | `[Text](#link){: .btn .btn--warning}` |
-| Danger        | [Text](#link){: .btn .btn--danger} | `.btn .btn--danger` | `[Text](#link){: .btn .btn--danger}` |
-| Info          | [Text](#link){: .btn .btn--info} | `.btn .btn--info` | `[Text](#link){: .btn .btn--info}` |
-| Inverse       | [Text](#link){: .btn .btn--inverse} | `.btn .btn--inverse` | `[Text](#link){: .btn .btn--inverse}` |
-| Light Outline | [Text](#link){: .btn .btn--light-outline} | `.btn .btn--light-outline` | `[Text](#link){: .btn .btn--light-outline}` |
+| Default       | <Btn href="https://github.com" target="_blank">Text</Btn> | `.btn` | `<Btn href="https://github.com" target="_blank">Text</Btn>` |
+| Primary       | <Btn type="primary" :to="{ hash: '#notices' }">Text</Btn> | `.btn .btn--primary` | `<Btn type="primary" :to="{ hash: '#notices' }">Text</Btn>` |
+| Success       | <Btn type="success" @click="greet">Text</Btn> | `.btn .btn--success` | `<Btn type="success" @click="greet">Text</Btn>` |
+| Warning       | <Btn type="warning" href="#link">Text</Btn> | `.btn .btn--warning` | `<Btn type="warning" href="#link">Text</Btn>` |
+| Danger        | <Btn type="danger" href="#link">Text</Btn> | `.btn .btn--danger` | `<Btn type="danger" href="#link">Text</Btn>` |
+| Info          | <Btn type="info" href="#link">Text</Btn> | `.btn .btn--info` | `<Btn type="info" href="#link">Text</Btn>` |
+| Inverse       | <Btn type="inverse" href="#link">Text</Btn> | `.btn .btn--inverse` | `<Btn type="inverse" href="#link">Text</Btn>` |
+| Light Outline | <Btn type="light-outline" href="#link">Text</Btn> | `.btn .btn--light-outline` | `<Btn type="light-outline" href="#link">Text</Btn>` |
 
 | Button Size | Example | Class | Kramdown |
 | ----------- | ------- | ----- | -------- |
-| X-Large     | [X-Large Button](#){: .btn .btn--primary .btn--x-large} | `.btn .btn--primary .btn--x-large` | `[Text](#link){: .btn .btn--primary .btn--x-large}` |
-| Large       | [Large Button](#){: .btn .btn--primary .btn--large} | `.btn .btn--primary .btn--large` | `[Text](#link){: .btn .btn--primary .btn--large}` |
-| Default     | [Default Button](#){: .btn .btn--primary} | `.btn .btn--primary` | `[Text](#link){: .btn .btn--primary }` |
-| Small       | [Small Button](#){: .btn .btn--primary .btn--small} | `.btn .btn--primary .btn--small` | `[Text](#link){: .btn .btn--primary .btn--small}` |
+| X-Large     |  <Btn type="x-large primary" href="#link">Text</Btn> | `.btn .btn--x-large .btn--primary` | `<Btn type="x-large primary" href="#link">Text</Btn>` |
+| Large       | <Btn type="info large" href="#link">Text</Btn> | `.btn .btn--info .btn--large` |  `<Btn type="info large" href="#link">Text</Btn>` |
+| Default     | <Btn type="success" href="#link">Text</Btn> | `.btn .btn--success`  |  `<Btn type="success" href="#link">Text</Btn>` | 
+| Small       | <Btn type="small" href="#link">Text</Btn> | `.btn .btn--small` | `<Btn type="small" href="#link">Text</Btn>` |
 
 ## Notices
 
@@ -189,87 +190,95 @@ Call attention to a block of text.
 | Success     | `.notice--success` |
 | Danger      | `.notice--danger`  |
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice}` class.
-{: .notice}
+::: notice
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice` class.
+:::
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice--primary}` class.
-{: .notice--primary}
+::: notice--primary
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice--primary` class.
+:::
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice--info}` class.
-{: .notice--info}
+::: notice--info
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice--info` class.
+:::
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice--warning}` class.
-{: .notice--warning}
+::: notice--warning
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice--warning` class.
+:::
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice--success}` class.
-{: .notice--success}
+::: notice--success
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice--success` class.
+:::
 
-**Watch out!** This paragraph of text has been [emphasized](#) with the `{: .notice--danger}` class.
-{: .notice--danger}
+::: notice--danger
+**Watch out!** This paragraph of text has been [emphasized](#) with the `notice--danger` class.
+:::
 
-{% capture notice-text %}
+::: notice
 You can also add the `.notice` class to a `<div>` element.
 
 * Bullet point 1
 * Bullet point 2
-{% endcapture %}
+:::
 
-<div class="notice--info">
+::: notice--info
   <h4>Notice Headline:</h4>
   Hello
-</div>
+:::
 
 
 ## Text alignment
 
 Align text blocks with the following classes.
 
+::: text-left
 Left aligned text `.text-left`
-{: .text-left}
+:::
 
 ```markdown
+::: text-left
 Left aligned text
-{: .text-left}
+:::
 ```
 
----
-
+::: text-center
 Center aligned text. `.text-center`
-{: .text-center}
+:::
 
 ```markdown
+::: text-center
 Center aligned text.
-{: .text-center}
+:::
 ```
 
----
-
+::: text-right
 Right aligned text. `.text-right`
-{: .text-right}
+:::
 
 ```markdown
+::: text-right
 Right aligned text.
-{: .text-right}
+:::
 ```
 
----
-
+::: text-justify
 **Justified text.** `.text-justify` Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel eleifend odio, eu elementum purus. In hac habitasse platea dictumst. Fusce sed sapien eleifend, sollicitudin neque non, faucibus est. Proin tempus nisi eu arcu facilisis, eget venenatis eros consequat.
-{: .text-justify}
+:::
 
 ```markdown
+::: text-justify
 Justified text.
-{: .text-justify}
+:::
 ```
 
----
-
+::: text-nowrap
 No wrap text. `.text-nowrap`
-{: .text-nowrap}
+:::
 
 ```markdown
+::: text-nowrap
 No wrap text.
-{: .text-nowrap}
+:::
 ```
 
 ## HTML Tags
@@ -347,3 +356,9 @@ Still sticking with science and Albert Einstein's E = MC<sup>2</sup>, which shou
 ### Variable Tag
 
 This allows you to denote <var>variables</var>.
+
+<script setup>
+  function greet() {
+    alert('Hello world!');
+  }
+</script>

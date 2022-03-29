@@ -6,7 +6,7 @@ div[class^='language-'],
 figure.highlight {
   position: relative;
   margin-bottom: 1em;
-  background: $base00;
+  background: #121212 !important;
   color: $base05;
   font-family: $monospace;
   font-size: $type-size-6;
@@ -15,9 +15,16 @@ figure.highlight {
   display: flex;
   overflow-x: auto;
 
+  @include breakpoint(max-width $medium) {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 0;
+  }
+
   > .line-numbers {
-    background-color: #121212;
-    color: #5a5854;
+    color: #646464;
     text-align: right;
     padding: 1em 0 1em 1em;
     flex-basis: 1em;
@@ -27,12 +34,29 @@ figure.highlight {
   > pre,
   pre.highlight,
   pre.shiki {
+    background-color: transparent !important;
+    z-index: 1;
     flex-grow: 1;
     order: 2;
     margin: 0;
     padding: 1em;
     border-radius: $border-radius;
     overflow-x: visible;
+  }
+
+  > .highlight-lines {
+    position: absolute;
+    user-select: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1em 0;
+
+    > .highlight-line {
+      position: relative;
+      background-color: white;
+      opacity: 15%;
+    }
   }
 }
 

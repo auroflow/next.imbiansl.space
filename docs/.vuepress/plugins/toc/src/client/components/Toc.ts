@@ -65,7 +65,6 @@ const renderHeaders = (
         // add active class if current item is active
         // or it has an active parent
         if (options.itemActiveClass && (active || route.hash === hash)) {
-          console.log(hash + ' is active')
           itemClass.push(options.itemActiveClass)
           currentActive = true
         }

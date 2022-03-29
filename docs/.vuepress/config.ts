@@ -50,8 +50,8 @@ module.exports = {
       {
         headerLinkSelector: 'a.toc__link',
         headerAnchorSelector: 'a.header-link',
-        offset: -120,
-        delay: 0,
+        offset: 0,
+        delay: 100,
       },
     ],
     [
@@ -70,6 +70,78 @@ module.exports = {
       '@vuepress/plugin-shiki',
       {
         theme: 'vitesse-dark',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'small',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice--primary',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice--info',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice--danger',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice--warning',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'notice--success',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'text-left',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'text-right',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'text-center',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'text-justify',
+      },
+    ],
+    [
+      '@vuepress/plugin-container',
+      {
+        type: 'text-nowrap',
       },
     ],
   ],
