@@ -1,3 +1,6 @@
 {
-  "include": ["./docs/**/*", "./docs/.vuepress/**/*"]
+  "include": ["./blog/**/*", "./blog/.vuepress/**/*"],
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

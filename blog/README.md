@@ -23,11 +23,11 @@ toc: true
 
 ## Code
 
-```javascript
+```javascript:no-line-numbers{3}
 document
   .getElementById('#button')
   .addEventListener('click', (event) => { 
-    event.target.innerHTML = 'Clicked!' 
+    event.target.innerHTML = 'Yay!' 
   })
 ```
 

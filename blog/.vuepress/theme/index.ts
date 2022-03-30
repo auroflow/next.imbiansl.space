@@ -1,25 +1,21 @@
+import { Theme } from '@vuepress/core'
 import { path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
+import type { MinimalMistakesThemeData } from './types'
 
-module.exports = {
-  lang: 'zh-CN',
-  title: "imbiansl's space",
-  description: "This is imbiansl's space.",
-  theme: path.resolve(__dirname, 'theme/index.ts'),
+const isProd = process.env.NODE_ENV === 'production'
 
-  head: [
-    [
-      'script',
-      {
-        src: 'https://kit.fontawesome.com/e1417f4a47.js',
-        crossorigin: 'anonymous',
-        defer: true,
-      },
-    ],
-  ],
+const theme: Theme = {
+  name: 'vuepress-theme-minimal-mistakes',
+  layouts: {
+    Layout: path.resolve(__dirname, 'layouts/Layout.vue'),
+    404: path.resolve(__dirname, 'layouts/404.vue'),
+  },
+  clientAppEnhanceFiles: path.resolve(__dirname, 'enhance.ts'),
 
-  markdown: {
-    anchor: {
+  extendsMarkdownOptions: (markdownOptions, app) => {
+    markdownOptions.anchor = {
+      level: [1, 2, 3, 4, 5, 6],
       // add permalink header
       permalink: anchor.permalink.linkInsideHeader({
         class: 'header-link',
@@ -28,30 +24,68 @@ module.exports = {
           <i class="fa-solid fa-link" aria-hidden></i>
         `,
       }),
-    },
+    }
+    markdownOptions.extractHeaders = {
+      level: [1, 2, 3, 4],
+    }
   },
 
-  bundlerConfig: {
-    vuePluginOptions: {
-      template: {
-        compilerOptions: {
-          isCustomElement(tag: string) {
-            // recognize 'strike' tag
-            return ['strike'].indexOf(tag) !== -1
-          },
-        },
-      },
-    },
+  extendsPageOptions: (pageOptions, app) => {
+    if (pageOptions.filePath?.startsWith(app.dir.source('_posts/'))) {
+      pageOptions.frontmatter.permalinkPattern = '/:year/:month/:day/:slug.html'
+    }
   },
 
   plugins: [
+    [
+      '@vuepress/plugin-theme-data',
+      // the default theme data object
+      {
+        themeData: {
+          navigation: [
+            {
+              url: '/',
+              title: 'Home',
+            },
+            {
+              url: '/about',
+              title: 'About',
+            },
+            {
+              url: '/',
+              title: 'Home',
+            },
+            {
+              url: '/about',
+              title: 'About',
+            },
+            {
+              url: '/',
+              title: 'Home',
+            },
+            {
+              url: '/about',
+              title: 'About',
+            },
+            {
+              url: '/',
+              title: 'Home',
+            },
+            {
+              url: '/about',
+              title: 'About',
+            },
+          ],
+        } as MinimalMistakesThemeData,
+      },
+    ],
     [
       '@vuepress/plugin-active-header-links',
       {
         headerLinkSelector: 'a.toc__link',
         headerAnchorSelector: 'a.header-link',
-        offset: 0,
-        delay: 100,
+        offset: -160,
+        delay: 500,
       },
     ],
     [
@@ -68,9 +102,11 @@ module.exports = {
     ],
     [
       '@vuepress/plugin-shiki',
-      {
-        theme: 'vitesse-dark',
-      },
+      isProd
+        ? {
+            theme: 'vitesse-dark',
+          }
+        : false,
     ],
     [
       '@vuepress/plugin-container',
@@ -146,3 +182,5 @@ module.exports = {
     ],
   ],
 }
+
+module.exports = theme

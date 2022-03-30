@@ -2,13 +2,7 @@
   <a v-if="href" class="btn" :class="classObject" :href="href" v-bind="$attrs">
     <slot />
   </a>
-  <router-link
-    v-else-if="to"
-    class="btn"
-    :class="classObject"
-    :to="to"
-    v-bind="$attrs"
-  >
+  <router-link v-else-if="to" class="btn" :class="classObject" :to="to" v-bind="$attrs">
     <slot />
   </router-link>
   <button v-else class="btn" :class="classObject" v-bind="$attrs">
@@ -58,6 +52,5 @@ onMounted(() => {
   props.type?.split(' ')?.forEach((type: string) => {
     classObject[`btn--${type}`] = true
   })
-  console.log(classObject)
 })
 </script>
