@@ -2,10 +2,11 @@
 title: "Markup: HTML Tags and Formatting"
 excerpt: A variety of common markup showing how the theme styles them.
 toc: true
+mathjax: true
 ---
 
 
-# Header one
+# Header oney
 
 ## Header two
 

@@ -24,7 +24,7 @@ module.exports = {
         compilerOptions: {
           isCustomElement(tag: string) {
             // recognize 'strike' tag
-            return ['mjx-container'].indexOf(tag) !== -1
+            return tag.startsWith('mjx-')
           },
         },
       },

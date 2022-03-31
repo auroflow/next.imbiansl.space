@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.2.2",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "markdown-it-mathjax": "^2.0.0",
+    "markdown-it-mathjax-chtml": "^0.3.0"
   }
 }

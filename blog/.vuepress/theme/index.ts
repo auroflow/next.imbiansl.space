@@ -1,8 +1,9 @@
-import type { Theme } from '@vuepress/core'
+import type { HeadConfig, Theme } from '@vuepress/core'
 import { path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
 import type { MinimalMistakesThemeConfig } from './types'
-import mdMathjax from 'markdown-it-mathjax3'
+import mdMathjax from 'markdown-it-mathjax'
+import mdMathjaxSvg from 'markdown-it-mathjax3'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -32,16 +33,33 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
       }
     },
 
-    extendsMarkdown: (md) => {
-      md.use(mdMathjax, {
-        loader: { load: ['input/tex', 'output/chtml'] },
-      })
+    extendsMarkdown: (md, app) => {
+      if (app.env.isDev) {
+        md.use(mdMathjaxSvg)
+      } else if (app.env.isBuild) {
+        md.use(mdMathjax())
+      }
     },
 
     extendsPageOptions: (pageOptions, app) => {
       if (pageOptions.filePath?.startsWith(app.dir.source('_posts/'))) {
         pageOptions.frontmatter.permalinkPattern = '/:year/:month/:day/:slug.html'
         pageOptions.frontmatter.author = true
+      }
+    },
+
+    extendsPage(page, app) {
+      if (app.env.isBuild && page.frontmatter.mathjax) {
+        page.frontmatter.head = [
+          [
+            'script',
+            {
+              id: 'MathJax-script',
+              src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js',
+              async: true,
+            },
+          ],
+        ]
       }
     },
 
