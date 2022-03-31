@@ -4,7 +4,7 @@
     <nav ref="container" class="toc">
       <header>
         <h4 class="nav__title">
-          <i class="fa-solid fa-file-lines" aria-hidden></i>
+          <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
           目录
         </h4>
       </header>

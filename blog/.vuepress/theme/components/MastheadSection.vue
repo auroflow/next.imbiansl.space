@@ -7,8 +7,8 @@
           <router-link ref="siteTitle" class="site-title" :to="{ path: '/' }">{{ title }}</router-link>
           <ul ref="vlinkContainer" class="visible-links">
             <li v-for="(link, index) in visibleLinks" :key="index" class="masthead__menu-item">
-              <a v-if="isExternalLink(link.url)" href="link.url" title="link.description">{{ link.title }}</a>
-              <router-link v-else :to="{ path: link.url }" title="link.description">{{ link.title }}</router-link>
+              <a v-if="isExternalLink(link.url)" href="link.url" :title="link.description">{{ link.title }}</a>
+              <router-link v-else :to="{ path: link.url }" :title="link.description">{{ link.title }}</router-link>
             </li>
           </ul>
           <button
@@ -44,10 +44,10 @@ import { useThemeData } from '@vuepress/plugin-theme-data/lib/client'
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import _ from 'lodash'
-import type { MinimalMistakesThemeData } from '../types'
+import type { MinimalMistakesThemeConfig } from '../types'
 
 const { title } = useSiteData().value
-const { navigation } = useThemeData<MinimalMistakesThemeData>().value
+const { navigation } = useThemeData<MinimalMistakesThemeConfig>().value.header
 
 const isExternalLink = (link: string) => /^https?:\/\//.test(link)
 

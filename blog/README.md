@@ -307,10 +307,6 @@ The abbreviation CSS stands for "Cascading Style Sheets".
 
 You will learn later on in these tests that `word-wrap: break-word;` will be your best friend.
 
-### Strike Tag
-
-This tag will let you <strike>strikeout text</strike>.
-
 ### Emphasize Tag
 
 The emphasize tag should _italicize_ text.

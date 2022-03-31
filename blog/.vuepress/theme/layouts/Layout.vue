@@ -1,19 +1,12 @@
 <template>
   <DefaultLayout>
     <div id="main" role="main">
-      <article
-        class="page"
-        itemscope
-        itemtype="https://schema.org/CreativeWork"
-      >
+      <Sidebar />
+
+      <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
         <div class="page__inner-wrap">
           <header>
-            <h1
-              v-if="title"
-              id="page-title"
-              class="page__title"
-              itemprop="headline"
-            >
+            <h1 v-if="title" id="page-title" class="page__title" itemprop="headline">
               {{ title }}
             </h1>
             <div class="intro" v-if="excerpt">
@@ -35,6 +28,7 @@
 import DefaultLayout from './DefaultLayout.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { usePageFrontmatter } from '@vuepress/client'
+import Sidebar from '../components/Sidebar.vue'
 
 const { title, excerpt, toc } = usePageFrontmatter().value
 </script>
