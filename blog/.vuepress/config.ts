@@ -18,6 +18,19 @@ module.exports = {
     ],
   ],
 
+  bundlerConfig: {
+    vuePluginOptions: {
+      template: {
+        compilerOptions: {
+          isCustomElement(tag: string) {
+            // recognize 'strike' tag
+            return ['mjx-container'].indexOf(tag) !== -1
+          },
+        },
+      },
+    },
+  },
+
   themeConfig: {
     logo: '',
     fallbackTeaser: '',

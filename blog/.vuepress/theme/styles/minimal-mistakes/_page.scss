@@ -55,6 +55,10 @@ body {
     width: 100%;
     clear: both;
 
+    > header {
+      margin-bottom: 3em;
+    }
+
     .page__content,
     .page__meta,
     .page__share {

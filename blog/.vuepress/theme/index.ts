@@ -2,6 +2,7 @@ import type { Theme } from '@vuepress/core'
 import { path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
 import type { MinimalMistakesThemeConfig } from './types'
+import mdMathjax from 'markdown-it-mathjax3'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -31,6 +32,12 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
       }
     },
 
+    extendsMarkdown: (md) => {
+      md.use(mdMathjax, {
+        loader: { load: ['input/tex', 'output/chtml'] },
+      })
+    },
+
     extendsPageOptions: (pageOptions, app) => {
       if (pageOptions.filePath?.startsWith(app.dir.source('_posts/'))) {
         pageOptions.frontmatter.permalinkPattern = '/:year/:month/:day/:slug.html'
@@ -48,15 +55,15 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
           },
         },
       ],
-      [
-        '@vuepress/plugin-active-header-links',
-        {
-          headerLinkSelector: 'a.toc__link',
-          headerAnchorSelector: 'a.header-link',
-          offset: -160,
-          delay: 500,
-        },
-      ],
+      // [
+      //   '@vuepress/plugin-active-header-links',
+      //   {
+      //     headerLinkSelector: 'a.toc__link',
+      //     headerAnchorSelector: 'a.header-link',
+      //     offset: 5,
+      //     delay: 500,
+      //   },
+      // ],
       [
         require('./plugins/toc/src/node').default,
         {
@@ -65,11 +72,10 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
             containerTag: '',
             listClass: 'toc__menu',
             linkClass: 'toc__link',
-            itemActiveClass: 'active',
+            itemActiveClass: '',
           },
         },
       ],
-      ['vuepress-plugin-smooth-scroll', true],
       [
         '@vuepress/plugin-shiki',
         isProd

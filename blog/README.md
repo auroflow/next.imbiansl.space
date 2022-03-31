@@ -3,10 +3,6 @@ title: "Markup: HTML Tags and Formatting"
 excerpt: A variety of common markup showing how the theme styles them.
 toc: true
 ---
-<figure>
-  <img src="https://vuepress.vuejs.org/hero.png" alt="Fallback teaser">
-  <figcaption>This is my fallback teaser.</figcaption>
-</figure>
 
 
 # Header one
@@ -20,6 +16,11 @@ toc: true
 ##### Header five
 
 ###### Header six
+
+<figure>
+  <img src="https://vuepress.vuejs.org/hero.png" alt="Fallback teaser">
+  <figcaption>This is my fallback teaser.</figcaption>
+</figure>
 
 ## Code
 
@@ -69,6 +70,37 @@ int main() {
 }
 ```
 
+## Math
+
+An LR(0) item (or just item for short) of a context-free grammar is a production choice with a distinguished position in its right-hand side. We indicate this distinguished position by a period.
+
+e.g. Consider the grammar
+
+$$\begin{align}
+& S' \rightarrow S
+\\& S \rightarrow \text{ ( } S \text{ ) } S | \epsilon
+\end{align}$$
+
+The grammar has the following eight items:
+
+$$
+\begin{align}
+& S' \rightarrow .S
+\\& S' \rightarrow S.
+\\& S \rightarrow .\text{ ( } S \text{ ) } S
+\\& S \rightarrow \text{ ( } .S \text{ ) } S
+\\& S \rightarrow \text{ ( } S .\text{ ) } S
+\\& S \rightarrow \text{ ( } S \text{ ) } .S
+\\& S \rightarrow \text{ ( } S \text{ ) } S.
+\\& S \rightarrow .
+\end{align}
+$$
+
+An item records an intermediate step in the recognition of the right-hand side of a particular grammar rule choice.
+
+- The item $A \rightarrow \beta . \gamma$ constructed from the grammar rule choice $A \rightarrow \beta \gamma$ means that $\beta$ has already been seen and that it may be possible to derive the next input token from $\gamma$. This means $\beta$ must appear at the top of the stack.
+- Initial items: An item such as $A \rightarrow .\alpha$ that means we may be about to recognize an $A$ by using the grammar rule choice $A \rightarrow \alpha$.
+- Complete items: An item such as $A \rightarrow \alpha.$ that means $\alpha$ now resides on the top of the parsing stack and may be the handle, if $A \rightarrow \alpha$ is to be used for the next reduction.
 
 ## Blockquotes
 
