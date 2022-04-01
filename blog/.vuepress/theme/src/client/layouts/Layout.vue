@@ -17,6 +17,12 @@
             <TableOfContents v-if="frontmatter.toc" />
             <Content />
           </section>
+
+          <footer class="page__meta">
+            <PageMeta />
+          </footer>
+
+          <SocialShare v-if="frontmatter.share" />
         </div>
       </article>
     </div>
@@ -26,8 +32,10 @@
 <script setup lang="ts">
 import DefaultLayout from './DefaultLayout.vue'
 import TableOfContents from '../components/TableOfContents.vue'
+import PageMeta from '../components/PageMeta.vue'
 import { usePageFrontmatter } from '@vuepress/client'
 import Sidebar from '../components/Sidebar.vue'
+import SocialShare from '../components/SocialShare.vue'
 
 const frontmatter = usePageFrontmatter()
 </script>

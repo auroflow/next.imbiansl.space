@@ -1,8 +1,8 @@
 import { path } from '@vuepress/utils'
-import type { MinimalMistakesThemeConfig } from './theme/types'
+import type { MinimalMistakesThemeData } from './theme/src/shared'
 
 module.exports = {
-  lang: 'zh-CN',
+  lang: 'zh-Hans',
   title: "imbiansl's space",
   description: "This is imbiansl's space.",
   theme: path.resolve(__dirname, 'theme/src/node'),
@@ -17,19 +17,6 @@ module.exports = {
       },
     ],
   ],
-
-  bundlerConfig: {
-    vuePluginOptions: {
-      template: {
-        compilerOptions: {
-          isCustomElement(tag: string) {
-            // recognize 'strike' tag
-            return tag.startsWith('mjx-')
-          },
-        },
-      },
-    },
-  },
 
   themeConfig: {
     logo: '',
@@ -86,5 +73,5 @@ module.exports = {
       ],
     },
     pagination: 10,
-  } as MinimalMistakesThemeConfig,
+  } as MinimalMistakesThemeData,
 }

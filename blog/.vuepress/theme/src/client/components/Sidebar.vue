@@ -1,7 +1,9 @@
 <template>
+  <!-- Sidebar starts -->
   <div class="sidebar sticky">
     <AuthorProfile v-if="frontmatter.author" />
   </div>
+  <!-- Sidebar ends -->
 </template>
 
 <script lang="ts" setup>

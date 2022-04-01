@@ -1,4 +1,5 @@
 <template>
+  <!-- AuthorProfile starts -->
   <div itemscope itemtype="https://schema.org/Person">
     <div v-if="author.avatar" class="author__avatar">
       <!-- No link to home -->
@@ -49,15 +50,15 @@
       </ul>
     </div>
   </div>
+  <!-- AuthorProfile ends -->
 </template>
 
 <script lang="ts" setup>
-import { useThemeData } from '@vuepress/plugin-theme-data/lib/client'
+import { useThemeData } from '../composables'
 import { onMounted, ref } from 'vue'
-import { MinimalMistakesThemeConfig } from '../types'
 import { onClickOutside } from '@vueuse/core'
 
-const { author } = useThemeData<MinimalMistakesThemeConfig>().value
+const { author } = useThemeData().value
 
 const isExternalLink = (link: string) => /^https?:\/\//.test(link)
 
@@ -75,7 +76,6 @@ const toggleFollowList = () => {
 onClickOutside(
   followList,
   () => {
-    console.log('click outside')
     followList.value.style.display = null
   },
   {

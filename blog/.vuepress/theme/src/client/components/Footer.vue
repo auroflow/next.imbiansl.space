@@ -1,4 +1,5 @@
 <template>
+  <!-- Footer starts -->
   <div class="page__footer-follow">
     <ul class="social-icons">
       <li><strong>Follow</strong></li>
@@ -21,12 +22,12 @@
     &copy; {{ new Date().getFullYear() }} {{ author.name }}. Built with Vuepress. Powered by Minimal Mistakes, which is
     originally a Jekyll theme.
   </div>
+  <!-- Footer ends -->
 </template>
 
 <script lang="ts" setup>
-import { useThemeData } from '@vuepress/plugin-theme-data/lib/client'
-import { MinimalMistakesThemeConfig } from '../types'
+import { useThemeData } from '../composables'
 
-const { author, footer } = useThemeData<MinimalMistakesThemeConfig>().value
+const { author, footer } = useThemeData().value
 const { links, feed } = footer
 </script>

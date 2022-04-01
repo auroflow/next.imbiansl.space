@@ -17,7 +17,7 @@
             :class="{ hidden: !hiddenLinks.length, close: showHiddenLinks }"
             @click="showHiddenLinks = !showHiddenLinks"
           >
-            <span class="visually-hidden">更多导航</span>
+            <span class="visually-hidden">More</span>
             <div class="navicon"></div>
           </button>
           <ul
@@ -40,14 +40,13 @@
 
 <script lang="ts" setup>
 import { useSiteData } from '@vuepress/client'
-import { useThemeData } from '@vuepress/plugin-theme-data/lib/client'
+import { useThemeData } from '../composables'
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import _ from 'lodash'
-import type { MinimalMistakesThemeConfig } from '../types'
 
 const sitedata = useSiteData()
-const themedata = useThemeData<MinimalMistakesThemeConfig>()
+const themedata = useThemeData()
 
 const isExternalLink = (link: string) => /^https?:\/\//.test(link)
 

@@ -57,6 +57,16 @@
 
     > header {
       margin-bottom: 3em;
+
+      > .intro {
+        color: $gray;
+        -webkit-transition: 0.2s ease-out;
+        transition: 0.2s ease-out;
+
+        &:hover {
+          color: $dark-gray;
+        }
+      }
     }
 
     .page__content,
@@ -262,6 +272,10 @@
   margin-top: 2em;
   padding-top: 1em;
   border-top: 1px solid $border-color;
+
+  .btn + .btn {
+    margin-left: 0.5em;
+  }
 
   @include breakpoint(max-width $small) {
     .btn span {

@@ -19,7 +19,7 @@ export interface Author {
   links: LinkItem[]
 }
 
-export interface MinimalMistakesThemeConfig {
+export interface MinimalMistakesThemeData {
   logo: string
   fallbackTeaser: string
   author: Author

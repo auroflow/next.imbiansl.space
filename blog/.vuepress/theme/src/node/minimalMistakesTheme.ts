@@ -1,20 +1,31 @@
 import type { Theme } from '@vuepress/core'
 import { path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
-import type { MinimalMistakesThemeConfig } from '../shared/types'
+import type { Articles, MinimalMistakesThemeData } from '../shared'
 import mdMathjax from 'markdown-it-mathjax'
 import mdMathjaxSvg from 'markdown-it-mathjax3'
 
-const isProd = process.env.NODE_ENV === 'production'
+const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app) => {
+  // Make vue recognize certain custom tags
+  if (app.options.bundler.endsWith('vite')) {
+    app.options.bundlerConfig.viteOptions = require('vite').mergeConfig(app.options.bundlerConfig.viteOptions, {
+      isCustomElement(tag: string) {
+        // MathJax tag names start with mjx-
+        return tag.startsWith('mjx-')
+      },
+    })
+  }
 
-const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
   return {
     name: 'vuepress-theme-minimal-mistakes',
+
     layouts: {
       Layout: path.resolve(__dirname, '../client/layouts/Layout.vue'),
+      default: path.resolve(__dirname, '../client/layouts/DefaultLayout.vue'),
       404: path.resolve(__dirname, '../client/layouts/404.vue'),
     },
-    clientAppEnhanceFiles: path.resolve(__dirname, 'enhance.ts'),
+
+    clientAppEnhanceFiles: path.resolve(__dirname, '../client/utils/enhance.ts'),
 
     extendsMarkdownOptions: (markdownOptions, app) => {
       markdownOptions.anchor = {
@@ -31,6 +42,9 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, ap
       markdownOptions.extractHeaders = {
         level: [1, 2, 3, 4],
       }
+      markdownOptions.code = {
+        lineNumbers: 7,
+      }
     },
 
     extendsMarkdown: (md, app) => {
@@ -43,32 +57,60 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, ap
 
     extendsPageOptions: (pageOptions, app) => {
       if (pageOptions.filePath?.startsWith(app.dir.source('posts/'))) {
-        pageOptions.frontmatter = {
-          permalinkPattern: 'posts/:year/:month/:day/:slug.html',
+        // Posts are in /posts
+        pageOptions.frontmatter = Object.assign(pageOptions.frontmatter ?? {}, {
+          permalinkPattern: 'posts/:year/:month/:day/:slug',
           author: true,
+          share: true,
+        })
+        // extract date from filename to frontmatter
+        const possibleDate = path.basename(pageOptions.filePath).slice(0, 10)
+        if (possibleDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          pageOptions.frontmatter.date = possibleDate
         }
-      }
-      if (pageOptions.filePath?.startsWith(app.dir.source('pages/'))) {
-        pageOptions.frontmatter = {
-          permalinkPattern: '../:slug.html',
+      } else if (pageOptions.filePath?.startsWith(app.dir.source('pages/'))) {
+        // Pages are in /pages
+        pageOptions.frontmatter = Object.assign(pageOptions.frontmatter ?? {}, {
           author: true,
-        }
+          permalinkPattern: ':slug',
+        })
       }
     },
 
     extendsPage(page, app) {
       if (app.env.isBuild && page.frontmatter.mathjax) {
-        page.frontmatter.head = [
-          [
-            'script',
-            {
-              id: 'MathJax-script',
-              src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js',
-              async: true,
-            },
+        page.frontmatter = Object.assign(page.frontmatter ?? {}, {
+          head: [
+            [
+              'script',
+              {
+                id: 'MathJax-script',
+                src: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js',
+                async: true,
+              },
+            ],
           ],
-        ]
+        })
       }
+    },
+
+    onInitialized(app) {
+      // Get post list
+      const articles: Articles = {
+        posts: [],
+      }
+
+      for (const page of app.pages) {
+        if (/^\/posts\/\d{4}-\d{2}-\d{2}-/.test(page.pathInferred)) {
+          // If the page is in /posts directory and adheres to the name convention,
+          // add it to the post list
+          articles.posts.push({
+            ...page.data,
+          })
+        }
+      }
+
+      console.log(JSON.stringify(articles))
     },
 
     plugins: [
@@ -81,15 +123,6 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, ap
           },
         },
       ],
-      // [
-      //   '@vuepress/plugin-active-header-links',
-      //   {
-      //     headerLinkSelector: 'a.toc__link',
-      //     headerAnchorSelector: 'a.header-link',
-      //     offset: 5,
-      //     delay: 500,
-      //   },
-      // ],
       [
         require('../plugins/toc/src/node').default,
         {
@@ -104,7 +137,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, ap
       ],
       [
         '@vuepress/plugin-shiki',
-        isProd
+        app.env.isBuild
           ? {
               theme: 'vitesse-dark',
             }
