@@ -5,7 +5,7 @@ module.exports = {
   lang: 'zh-CN',
   title: "imbiansl's space",
   description: "This is imbiansl's space.",
-  theme: path.resolve(__dirname, 'theme/index.ts'),
+  theme: path.resolve(__dirname, 'theme/src/node'),
 
   head: [
     [
@@ -60,37 +60,13 @@ module.exports = {
           title: 'Home',
         },
         {
-          url: '/about',
-          title: 'About',
-        },
-        {
-          url: '/',
-          title: 'Home',
-        },
-        {
-          url: '/about',
-          title: 'About',
-        },
-        {
-          url: '/',
-          title: 'Home',
-        },
-        {
-          url: '/about',
-          title: 'About',
-        },
-        {
-          url: '/',
-          title: 'Home',
-        },
-        {
-          url: '/about',
-          title: 'About',
+          url: '/short',
+          title: 'Article',
         },
       ],
     },
     footer: {
-      feed: true,
+      feed: '',
       links: [
         {
           label: 'Twitter',

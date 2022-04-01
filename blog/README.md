@@ -5,8 +5,7 @@ toc: true
 mathjax: true
 ---
 
-
-# Header oney
+# Header one
 
 ## Header two
 
@@ -195,7 +194,7 @@ Make any link standout more when applying the `.btn .btn--primary` classes.
 | Button Type   | Example | Class | Kramdown |
 | ------        | ------- | ----- | ------- |
 | Default       | <Btn href="https://github.com" target="_blank">Text</Btn> | `.btn` | `<Btn href="https://github.com" target="_blank">Text</Btn>` |
-| Primary       | <Btn type="primary" :to="{ hash: '#notices' }">Text</Btn> | `.btn .btn--primary` | `<Btn type="primary" :to="{ hash: '#notices' }">Text</Btn>` |
+| Primary       | <Btn type="primary" to="/short">Text</Btn> | `.btn .btn--primary` | `<Btn type="primary" :to="{ hash: '#notices' }">Text</Btn>` |
 | Success       | <Btn type="success" @click="greet">Text</Btn> | `.btn .btn--success` | `<Btn type="success" @click="greet">Text</Btn>` |
 | Warning       | <Btn type="warning" href="#link">Text</Btn> | `.btn .btn--warning` | `<Btn type="warning" href="#link">Text</Btn>` |
 | Danger        | <Btn type="danger" href="#link">Text</Btn> | `.btn .btn--danger` | `<Btn type="danger" href="#link">Text</Btn>` |

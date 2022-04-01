@@ -27,7 +27,7 @@ export interface MinimalMistakesThemeConfig {
     navigation: HeaderNavItem[]
   }
   footer: {
-    feed: boolean
+    feed: string
     links: LinkItem[]
   }
   pagination: number | false

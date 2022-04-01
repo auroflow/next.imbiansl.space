@@ -4,7 +4,7 @@
     <div class="masthead__inner-wrap">
       <div class="masthead__menu">
         <nav ref="navbar" id="site-nav" class="greedy-nav">
-          <router-link ref="siteTitle" class="site-title" :to="{ path: '/' }">{{ title }}</router-link>
+          <router-link ref="siteTitle" class="site-title" :to="{ path: '/' }">{{ sitedata.title }}</router-link>
           <ul ref="vlinkContainer" class="visible-links">
             <li v-for="(link, index) in visibleLinks" :key="index" class="masthead__menu-item">
               <a v-if="isExternalLink(link.url)" href="link.url" :title="link.description">{{ link.title }}</a>
@@ -46,12 +46,12 @@ import type { Ref } from 'vue'
 import _ from 'lodash'
 import type { MinimalMistakesThemeConfig } from '../types'
 
-const { title } = useSiteData().value
-const { navigation } = useThemeData<MinimalMistakesThemeConfig>().value.header
+const sitedata = useSiteData()
+const themedata = useThemeData<MinimalMistakesThemeConfig>()
 
 const isExternalLink = (link: string) => /^https?:\/\//.test(link)
 
-const visibleLinks = reactive(navigation)
+const visibleLinks = reactive(themedata.value.header.navigation)
 const hiddenLinks = reactive([])
 const showHiddenLinks = ref(false)
 
@@ -60,6 +60,8 @@ const button: Ref<HTMLButtonElement> = ref(null)
 const vlinkContainer: Ref<HTMLUListElement> = ref(null)
 const hlinkContainer: Ref<HTMLUListElement> = ref(null)
 
+// Adjust the navbar upon window resize by moving links between
+// visibleLinks and hiddenLinks
 onMounted(() => {
   let numOfItems = 0
   let totalSpace = 0
@@ -83,6 +85,8 @@ onMounted(() => {
     let vlinks = Array.from(vlinkContainer.value.children) as HTMLLIElement[]
     availableSpace = vlinkContainer.value.offsetWidth - button.value.offsetWidth
     numOfVisibleItems = vlinks.length
+    // Note that there is a slight mismatch when the window breakpoint is triggered,
+    // but this does not severely affect the layout.
     requiredSpace = breakWidths[numOfVisibleItems - 1]
 
     if (requiredSpace > availableSpace) {
@@ -105,6 +109,7 @@ onMounted(() => {
 
   let checkThrottled = _.throttle(check, checkFrequency)
 
+  // Listen to resizes of the navbar
   const observer = new ResizeObserver(checkThrottled)
   observer.observe(navbar.value)
 

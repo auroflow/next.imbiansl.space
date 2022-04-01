@@ -1,18 +1,18 @@
-import type { HeadConfig, Theme } from '@vuepress/core'
+import type { Theme } from '@vuepress/core'
 import { path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
-import type { MinimalMistakesThemeConfig } from './types'
+import type { MinimalMistakesThemeConfig } from '../shared/types'
 import mdMathjax from 'markdown-it-mathjax'
 import mdMathjaxSvg from 'markdown-it-mathjax3'
 
 const isProd = process.env.NODE_ENV === 'production'
 
-const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
+const minimalMistakesTheme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
   return {
     name: 'vuepress-theme-minimal-mistakes',
     layouts: {
-      Layout: path.resolve(__dirname, 'layouts/Layout.vue'),
-      404: path.resolve(__dirname, 'layouts/404.vue'),
+      Layout: path.resolve(__dirname, '../client/layouts/Layout.vue'),
+      404: path.resolve(__dirname, '../client/layouts/404.vue'),
     },
     clientAppEnhanceFiles: path.resolve(__dirname, 'enhance.ts'),
 
@@ -23,9 +23,9 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
         permalink: anchor.permalink.linkInsideHeader({
           class: 'header-link',
           symbol: `
-          <span class="sr-only">Permalink</span>
-          <i class="fa-solid fa-link" aria-hidden="true"></i>
-        `,
+            <span class="sr-only">Permalink</span>
+            <i class="fa-solid fa-link" aria-hidden="true"></i>
+          `,
         }),
       }
       markdownOptions.extractHeaders = {
@@ -42,9 +42,17 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
     },
 
     extendsPageOptions: (pageOptions, app) => {
-      if (pageOptions.filePath?.startsWith(app.dir.source('_posts/'))) {
-        pageOptions.frontmatter.permalinkPattern = '/:year/:month/:day/:slug.html'
-        pageOptions.frontmatter.author = true
+      if (pageOptions.filePath?.startsWith(app.dir.source('posts/'))) {
+        pageOptions.frontmatter = {
+          permalinkPattern: 'posts/:year/:month/:day/:slug.html',
+          author: true,
+        }
+      }
+      if (pageOptions.filePath?.startsWith(app.dir.source('pages/'))) {
+        pageOptions.frontmatter = {
+          permalinkPattern: '../:slug.html',
+          author: true,
+        }
       }
     },
 
@@ -83,7 +91,7 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
       //   },
       // ],
       [
-        require('./plugins/toc/src/node').default,
+        require('../plugins/toc/src/node').default,
         {
           defaultPropsOptions: {
             // the nav container is written by hand in components/TableOfContents.vue
@@ -178,4 +186,4 @@ const theme: Theme<MinimalMistakesThemeConfig> = (themeConfig, app) => {
   }
 }
 
-module.exports = theme
+export { minimalMistakesTheme }

@@ -1,10 +1,9 @@
 import { defineClientAppEnhance } from '@vuepress/client'
-import { format } from 'path'
-import Btn from './widgets/Btn.vue'
+import Btn from '../client/widgets/Btn.vue'
 
 export default defineClientAppEnhance(({ app, router, siteData }) => {
   app.component('Btn', Btn)
-  router.options.scrollBehavior = (to, from, savedPosition) => {
+  router.options.scrollBehavior = (to, from) => {
     if (to.hash) {
       if (!from.name) {
         return new Promise((resolve) => {
