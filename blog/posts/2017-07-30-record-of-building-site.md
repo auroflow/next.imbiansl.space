@@ -3,7 +3,6 @@ title: 建站纪事
 excerpt: "上帝说，要有光。"
 date: 2017-07-30
 last_modified_at: 2017-08-06
-layout: single
 header:
   overlay_image: /assets/images/record-of-building-site/teaser.jpg
 categories:

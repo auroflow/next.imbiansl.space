@@ -1,7 +1,6 @@
 ---
 title: 回溯形树状 DP
 mathjax: true
-layout: single
 header:
   teaser: /assets/images/backtracking-dp-on-trees/teaser-small.jpg
   image: /assets/images/backtracking-dp-on-trees/teaser.jpg
@@ -83,7 +82,6 @@ dfs(root) {
 
 现在我们针对下面的子树，一步一步分析。
 
-![a tree](/assets/images/backtracking-dp-on-trees/tree.png)
 
 我们从 $$son_1$$ 开始枚举。首先我们对 $$son_1$$ 执行 DFS 操作，这就得到了所有和 $$son_1$$ 有关的信息。
 
@@ -98,7 +96,7 @@ $$dp_{root,j-k,1}+dp_{son_2,k-2,1}=dp_{son_1,j-k-2,1}+dp_{son_2,k-2,1}$$
 即为进入 $$son_1$$ 后返回，再进入 $$son_2$$ 后返回，共花 $$j$$ 步，吃到的最多苹果数。但别忘了，我们要枚举分给子树的步数，并把结果与当前的 $$dp_{root,j,1}$$ 求最大值。因此，在枚举过 $$son_2$$ 后，$$dp_{root,j,1}$$ 就会出现两种情况：
 
 1. 如果能找到更大的答案，则存储的就是进入 $$son_1$$ 再进入 $$son_2$$ 的最多苹果数。
-1. 如果没有更大的答案，则存储的就是只进入 $$son_1$$ 得到的最多苹果数。
+2. 如果没有更大的答案，则存储的就是只进入 $$son_1$$ 得到的最多苹果数。
 
 还有一种可能，就是只进入 $$son_2$$。这个算法包含了这种可能么？包含了。当我们把 $$j$$ 步全部分给 $$son_2$$ 时，就是只进入 $$son_2$$ 的情况。它包含在情况 1 中。
 

@@ -23,6 +23,8 @@
           </footer>
 
           <SocialShare v-if="frontmatter.share" />
+
+          <PostPagination />
         </div>
       </article>
     </div>
@@ -36,6 +38,7 @@ import PageMeta from '../components/PageMeta.vue'
 import { usePageFrontmatter } from '@vuepress/client'
 import Sidebar from '../components/Sidebar.vue'
 import SocialShare from '../components/SocialShare.vue'
+import PostPagination from '../components/PostPagination.vue'
 
 const frontmatter = usePageFrontmatter()
 </script>

@@ -12,19 +12,18 @@ tags:
 toc: true
 ---
 
-<div align="center"><img src="/assets/images/cpp-smart-ptrs/teaser.png" style="margin-bottom: .5em;width:100%"></div>
 
 <figcaption align="right"><a href="https://travisvroman.com/2021/05/07/c-raw-pointers-and-oop/">Source</a></figcaption>
 
 在 C++ 中，如果我们要动态分配内存，一般会使用 `new` 操作符，并利用其返回的原生指针来操作新对象：
 
-{% highlight cpp %}
+```cpp
 int main() {
   int* p = new int(10);
   assert(*p == 10);  // 一些操作
   delete p;
 }
-{% endhighlight %}
+```
 
 麻烦在于，在离开指针 `p` 的作用域之前，我们必须对它作且仅作一次 `delete` 操作，以释放该段内存——否则，不 `delete` 会内存泄漏，`delete` 多次会出现段错误。
 
@@ -36,9 +35,9 @@ int main() {
 
 在语法上，`unique_ptr` 是一个类模板。定义 `unique_ptr` 时，要按照类模板的语法说明基类型，并向构造函数中使用 `new` 操作符来分配内存：
 
-{% highlight cpp %}
+```cpp
 std::unique_ptr<T> ptr(new T(/* ... */));
-{% endhighlight %}
+```
 
 `unique_ptr` 使用运算符重载封装了指针操作，因此我们可以直接对其使用 `*` 和 `->` 操作符。
 
@@ -46,7 +45,7 @@ std::unique_ptr<T> ptr(new T(/* ... */));
 
 我们来看一个简单的例子。首先定义一个 `Song` 类，并让它在构造和析构时输出信息以便于观察，然后使用 `unique_ptr` 指向它：
 
-{% highlight cpp %}
+```cpp
 class Song {
   private:
     std::string _title;
@@ -67,15 +66,15 @@ void UseUniquePtr() {
   std::unique_ptr<Song> PtrToSong(new Song("Here Comes the Sun", "The Beatles"));
   PtrToSong->show();
 }
-{% endhighlight %}
+```
 
 运行 `UseUniquePtr()` 的输出结果：
 
-{% highlight text %}
+```
 Song()
 Here Comes the Sun by The Beatles
 ~Song(Here Comes the Sun)
-{% endhighlight %}
+```
 
 以上便是 `unique_ptr` 的基本用法：
 
@@ -86,9 +85,9 @@ Here Comes the Sun by The Beatles
 <div class="notice--info">
 <strong>提示</strong>　<code>unique_ptr</code> 也可以指向数组：
 
-{% highlight cpp %}
+```cpp
 unique_ptr<T[]> ptr_array(new T[SIZE]);
-{% endhighlight %}
+```
 
 需要注意的是这样定义的 <code>unique_ptr</code> 只支持 <code>[]</code> 运算符，而不支持 <code>*</code> 或 <code>-></code>。
 </div>
@@ -99,7 +98,7 @@ unique_ptr<T[]> ptr_array(new T[SIZE]);
 <div class="notice--warning">
 <p><strong>注意</strong>　<code>unique_ptr</code> 的构造函数实际上接受的是 <code>new</code> 返回的指针。但是，尽量不要用普通的指针变量来构造 <code>unique_ptr</code>。例如：</p>
 
-{% highlight cpp %}
+```cpp
 {
   Song song("Dreams", "Cranberries");
   Song* p = &song;
@@ -107,25 +106,25 @@ unique_ptr<T[]> ptr_array(new T[SIZE]);
   pSong->show();
   std::cout << "End of block" << std::endl;
 }
-{% endhighlight %}
+```
 
 <p>输出结果：</p>
 
-{% highlight text %}
+```
 Song()
 Dreams by Cranberries
 End of block
 ~Song(Dreams)
 double free or corruption (out)
 Aborted (core dumped)
-{% endhighlight %}
+```
 
 <p>当上面的代码块结束时，<code>song</code> 会被 <code>unique_ptr</code> 析构；同时，由于 <code>song</code> 是局部变量，它自身又会执行一次析构操作，引发堆栈问题。智能指针就是为了替代传统指针而存在的，所以尽量不要将它们共用。</p>
 </div>
 
 下面，我们来展示 `unique_ptr` 的更多用法。为了展示智能指针的多态性，我们定义下面几个类，其中 `User` 是虚基类，`Student` 和 `Teacher` 继承自 `User`。
 
-{% highlight cpp %}
+```cpp
 class User {
   protected:
     std::string _uid;
@@ -167,21 +166,21 @@ class Teacher : public User {
       std::cout << "Teacher info: " + _uid + " " + _name + " " + _dept << std::endl;
     }
 };
-{% endhighlight %}
+```
 
 ### `unique_ptr` 资源转移
 
 在语义上 `unique_ptr` 独占资源，因此不能对其直接进行复制操作。比如：
 
-{% highlight cpp %}
+```cpp
 std::unique_ptr<Student> ptr1(new Student("100001", "Amy", "Art"));
 std::unique_ptr<Student> ptr2(new Student("100002", "Bob", "Biology"));
 ptr2 = ptr1;  // 非法
-{% endhighlight %}
+```
 
 上面的赋值语句如果成立，那么 `ptr1` 和 `ptr2` 就会指向同一段内存，当它们离开作用域时，就会将内存释放两次，造成混乱，因此 C++ 干脆禁止这种做法。若确实想让 `ptr2` 指向 `ptr1` 的内存，我们必须要求 `ptr1` 放弃其指向的内存：
 
-{% highlight cpp %}
+```cpp
 {
   std::unique_ptr<Student> ptr1(new Student("100001", "Amy", "Art"));
   std::unique_ptr<Student> ptr2(new Student("100002", "Bob", "Biology"));
@@ -189,54 +188,54 @@ ptr2 = ptr1;  // 非法
   assert(!ptr1);
   ptr2->show();
 }
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text %}
+```
 Student Amy constructed.
 Student Bob constructed.
 Student Bob destructed.
 Student info: 100001 Amy Art
 Student Amy destructed.
-{% endhighlight %}
+```
 
 这里使用了 C++11 新增的移动语义和右值引用特性——这些特性实际上是智能指针赖以实现的基础，但本文并不打算深究。`ptr2 = std::move(ptr1)` 可以简单理解为，`ptr1` 做出声明，允许 `ptr2` “偷走” 它的资源（即其指向的内存），这样一来 `ptr1` 变成了空指针，而 `ptr2` 原来指向的内存也被析构了。
 
 类似地，我们可以使用 `reset` 函数为 `unique_ptr` 分配新的内存：
 
-{% highlight cpp %}
+```cpp
 {
   ptr2.reset(new Student("100003", "Cindy", "Chinese"));
   ptr2->show();
 }
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text %}
+```
 Student Cindy constructed.
 Student Amy destructed.
 Student info: 100003 Cindy Chinese
 Student Cindy destructed.
-{% endhighlight %}
+```
 
 这里，`ptr2` 原来指向的 `Amy` 被析构，改为指向新创建的 `Cindy`。
 
 我们也可以使用不带参数的 `reset`，仅析构指向的内存，而不分配新的内存：
 
-{% highlight cpp %}
+```cpp
 {
   ptr2.reset();
   assert(!ptr2);
 }
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text %}
+```
 Student Cindy destructed.
-{% endhighlight %}
+```
 
 此时 `ptr2` 是空指针。
 
@@ -244,20 +243,20 @@ Student Cindy destructed.
 
 我们可以像前面的例子一样，直接定义 `unique_ptr`：
 
-{% highlight cpp %}
+```cpp
 unique_ptr<Student> PtrToStu(new Student("100001", "Amy", "Art"));
-{% endhighlight %}
+```
 
 但这样的语法有点麻烦，而且我们要写两次类型名 `Student`，这种代码重复是不理想的。我们可以使用 C++14 提供的 `make_unique` 函数：
 
-{% highlight cpp %}
+```cpp
 auto PtrToStu = make_unique<Student>("100001", "Amy", "Art");
 // PtrToStu 的类型是 unique_ptr<Student>
-{% endhighlight %}
+```
 
 这样可以少写一次 `Student`。当然，`make_unique` 用起来也不太自由，例如，当我们想要创建指向派生类的基类指针时，`make_unique` 就无能为力。这时，我们完全可以手写一个工厂函数，用以返回指向 `Student` 或 `Teacher` 的 `User` 类指针：
 
-{% highlight cpp %}
+```cpp
 template<typename... Ts>
 std::unique_ptr<User> make_staff(std::string type, Ts&&... params) {
   std::unique_ptr<User> spUsr;
@@ -272,13 +271,13 @@ std::unique_ptr<User> make_staff(std::string type, Ts&&... params) {
   }
   return spUsr;
 }
-{% endhighlight %}
+```
 
 上段代码用了 C++11 中的完美转发特性，这里暂不深究。简单地说，`make_staff` 函数接受的第一个参数如果是 `"student"`，就创建 `Student` 对象，并把后面的参数转发给 `Student` 类的构造函数；`teacher` 同理。
 
 使用工厂函数创建的 `unique_ptr` 可以直接传入 STL 容器中，而事先创建的 `unique_ptr` 需要用 `std::move` “移动”到 STL 容器中：
 
-{% highlight cpp %}
+```cpp
 {
   std::vector<std::unique_ptr<User>> staff_list;
   staff_list.push_back(make_staff("student", "100001", "Amy", "Art"));
@@ -292,11 +291,11 @@ std::unique_ptr<User> make_staff(std::string type, Ts&&... params) {
     staff->show();
   }
 }
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text %}
+```
 Student Amy constructed.
 Teacher Bob constructed.
 Teacher Cindy constructed.
@@ -306,13 +305,13 @@ Teacher info: 300001 Cindy Chemistry
 Student Amy destructed.
 Teacher Bob destructed.
 Teacher Cindy destructed.
-{% endhighlight %}
+```
 
 ### 自定义回收函数
 
 `unique_ptr` 支持我们自定义内存回收方式。可以使用 lambda 函数定义回收函数：
 
-{% highlight cpp %}
+```cpp
 {
   auto custom_deleter = [](User* p) {
                           std::cout << "Running custom deleter..." << std::endl;
@@ -321,15 +320,15 @@ Teacher Cindy destructed.
   std::unique_ptr<User, decltype(custom_deleter)>  // 使用 decltype 推断类型
       staff(new Student("100005", "Felix", "French"), custom_deleter);
 }
-{% endhighlight %}
+```
 
 输出：
 
-{% highlight text %}
+```
 Student Felix constructed.
 Running custom deleter...
 Student Felix destructed.
-{% endhighlight %}
+```
 
 ## `shared_ptr`：共享资源的智能指针
 
@@ -377,33 +376,33 @@ Destructing sp1...
 
 `Song` 对象没有内置的计数器，它是如何判断是否有 `shared_ptr` 指向它的呢？实际上，一个 `shared_ptr` 其实指向了两块内存：其拥有的资源，以及记录该内存资源信息的控制块。控制块中的引用计数器记录了该资源被多少个 `shared_ptr` 拥有。
 
-![Smart Pointers](/assets/images/cpp-smart-ptrs/shared-ptr.png)
 
 当用原生指针或 `unique_ptr` 初始化 `shared_ptr` 时，将会创建控制块，并设引用计数器为 1。若是用 `shared_ptr` 初始化另一个 `shared_ptr`，或是在两个 `shared_ptr` 间进行赋值操作时，将不会创建新的控制块，而是直接修改相应控制块中的引用计数器。例如，当执行上面的 `sp3.reset(new Song("Everybody Hurts", "R.E.M."));` 时，将会为 *Everybody Hurts* 创建控制块，引用计数器为 1；而 `sp3` 之前指向的 *Road To Nowhere* 引用计数器减 1。这样就保证了每个内存资源仅对应一个控制块，且引用计数正确。当引用计数为 0 时，内存资源将被回收。
 
 **提示**　可以用 `ptr.used_count()` 获取 `ptr` 拥有资源的引用计数。
 {: .notice--info}
 
-<div class="notice--warning">
+::: notice--warning
 <p><strong>注意</strong>　和 <code>unique_ptr</code> 类似，不要使用普通的指针变量来初始化 <code>shared_ptr</code>。这可能会导致同一内存资源关联多个控制块，因为控制块的创建与否仅由 <code>shared_ptr</code> 的初始化方式决定。考虑以下代码：</p>
-{% highlight cpp %}
+
+```cpp
 {
   auto p = new Song("Lisztomania", "Phoenix");
   std::shared_ptr<Song> sp1(p);
   std::shared_ptr<Song> sp2(p);
 }
-{% endhighlight %}
+```
 
 <p>输出：</p>
 
-{% highlight text %}
+```
 Song()
 ~Song(Lisztomania)
 Segmentation fault (core dumped)
-{% endhighlight %}
+```
 
 <p>以上代码使得 <em>Lisztomania</em> 关联了两个控制块。两个控制块中的引用计数都会达到 0，从而使 <em>Lisztomania</em> 析构两次。直接用 <code>new</code> 初始化，将会减少类似错误的风险。</p>
-</div>
+:::
 
 ### `make_shared` 和工厂函数
 

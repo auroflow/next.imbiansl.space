@@ -35,7 +35,8 @@
 <script lang="ts" setup>
 import { useSiteData } from '@vuepress/client'
 import { computed } from 'vue'
-import { usePageFrontmatter } from '../composables'
+import { usePageFrontmatter, usePageData } from '../composables'
+import { useArticles } from '../composables/useArticles'
 
 const frontmatter = usePageFrontmatter()
 const sitedata = useSiteData()
@@ -45,7 +46,7 @@ let displayDate = computed(() => {
   if (!date) {
     return null
   } else if (date instanceof Date) {
-    return date.toLocaleDateString()
+    return date.toLocaleDateString(sitedata.value.lang)
   } else {
     return new Date(date).toLocaleDateString(sitedata.value.lang)
   }

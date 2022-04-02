@@ -28,6 +28,7 @@
 <script lang="ts" setup>
 import { useThemeData } from '../composables'
 
+// Footer won't change, OK to lose reactivity
 const { author, footer } = useThemeData().value
 const { links, feed } = footer
 </script>
