@@ -10,11 +10,20 @@ export default defineClientAppEnhance(({ app, router, siteData }) => {
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve({ el: to.hash })
-          }, 1000)
+          }, 250)
         })
       } else {
         return { el: to.hash }
       }
+    } else {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({ top: 0 })
+        }, 250)
+      })
     }
   }
+
+  router.options.linkActiveClass = ''
+  router.options.linkExactActiveClass = ''
 })

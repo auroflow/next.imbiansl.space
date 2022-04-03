@@ -5,14 +5,14 @@
       <div class="masthead__menu">
         <nav ref="navbar" id="site-nav" class="greedy-nav">
           <router-link ref="siteTitle" class="site-title" :to="{ path: '/' }">{{ sitedata.title }}</router-link>
-          <ul ref="vlinkContainer" class="visible-links">
+          <ul id="v-link-container" class="visible-links">
             <li v-for="(link, index) in visibleLinks" :key="index" class="masthead__menu-item">
               <a v-if="isExternalLink(link.url)" href="link.url" :title="link.description">{{ link.title }}</a>
               <router-link v-else :to="{ path: link.url }" :title="link.description">{{ link.title }}</router-link>
             </li>
           </ul>
           <button
-            ref="button"
+            id="nav-toggle-button"
             class="greedy-nav__toggle"
             :class="{ hidden: !hiddenLinks.length, close: showHiddenLinks }"
             @click="showHiddenLinks = !showHiddenLinks"
@@ -28,7 +28,9 @@
           >
             <li v-for="link in hiddenLinks" class="masthead__menu-item">
               <a v-if="isExternalLink(link.url)" href="link.url" title="link.description">{{ link.title }}</a>
-              <router-link v-else :to="{ path: link.url }" title="link.description">{{ link.title }}</router-link>
+              <router-link v-else :to="{ path: link.url }" title="link.description"
+                >{{ link.title }} + internal</router-link
+              >
             </li>
           </ul>
         </nav>
@@ -44,6 +46,7 @@ import { useThemeData } from '../composables'
 import { nextTick, onMounted, reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import _ from 'lodash'
+import { normalizeReturnObjectHook } from '@vuepress/core'
 
 const sitedata = useSiteData()
 const themedata = useThemeData()
@@ -54,11 +57,6 @@ const visibleLinks = reactive(themedata.value.header.navigation)
 const hiddenLinks = reactive([])
 const showHiddenLinks = ref(false)
 
-const navbar: Ref<HTMLElement> = ref(null)
-const button: Ref<HTMLButtonElement> = ref(null)
-const vlinkContainer: Ref<HTMLUListElement> = ref(null)
-const hlinkContainer: Ref<HTMLUListElement> = ref(null)
-
 // Adjust the navbar upon window resize by moving links between
 // visibleLinks and hiddenLinks
 onMounted(() => {
@@ -67,8 +65,9 @@ onMounted(() => {
   let checkFrequency = 500
   let breakWidths = []
 
-  let initialVlinks = Array.from(vlinkContainer.value.children) as HTMLLIElement[]
+  let vlinkContainer = document.querySelector<HTMLDivElement>('#v-link-container')
 
+  let initialVlinks = Array.from(vlinkContainer.children) as HTMLLIElement[]
   initialVlinks.forEach((link) => {
     numOfItems += 1
     totalSpace += link.offsetWidth
@@ -81,8 +80,12 @@ onMounted(() => {
 
   function check() {
     // Get instant state
-    let vlinks = Array.from(vlinkContainer.value.children) as HTMLLIElement[]
-    availableSpace = vlinkContainer.value.offsetWidth - button.value.offsetWidth
+    vlinkContainer = document.querySelector<HTMLDivElement>('#v-link-container')
+    if (!vlinkContainer) return
+    const button = document.querySelector<HTMLButtonElement>('#nav-toggle-button')
+
+    let vlinks = Array.from(vlinkContainer.children) as HTMLLIElement[]
+    availableSpace = vlinkContainer.offsetWidth - button.offsetWidth
     numOfVisibleItems = vlinks.length
     // Note that there is a slight mismatch when the window breakpoint is triggered,
     // but this does not severely affect the layout.
@@ -98,11 +101,11 @@ onMounted(() => {
       nextTick(check)
     }
 
-    button.value.setAttribute('count', (numOfItems - numOfVisibleItems).toString())
+    button.setAttribute('count', (numOfItems - numOfVisibleItems).toString())
     if (numOfVisibleItems === numOfItems) {
-      button.value.classList.add('hidden')
+      button.classList.add('hidden')
     } else {
-      button.value.classList.remove('hidden')
+      button.classList.remove('hidden')
     }
   }
 
@@ -110,7 +113,8 @@ onMounted(() => {
 
   // Listen to resizes of the navbar
   const observer = new ResizeObserver(checkThrottled)
-  observer.observe(navbar.value)
+  const navbar = document.querySelector<HTMLDivElement>('#site-nav')
+  observer.observe(navbar)
 
   check()
 })

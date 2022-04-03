@@ -47,8 +47,16 @@ module.exports = {
           title: 'Home',
         },
         {
-          url: '/short',
-          title: 'Article',
+          url: '/tags',
+          title: 'Tags',
+        },
+        {
+          url: '/categories',
+          title: 'Categories',
+        },
+        {
+          url: '/formatting',
+          title: 'Sample',
         },
       ],
     },

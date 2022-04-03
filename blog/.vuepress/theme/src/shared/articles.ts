@@ -1,8 +1,7 @@
 import { Page } from '@vuepress/core'
-import { MinimalMistakesExtraPageFields } from '.'
 import { MinimalMistakesPageFrontmatter } from './pageData'
 
-export interface PageEntry<T = MinimalMistakesExtraPageFields> {
+export interface PageEntry<T = {}> {
   pageObject: Page<{}, T>
   key: string
   path: string

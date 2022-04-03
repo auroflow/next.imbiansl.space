@@ -32,9 +32,9 @@
     </div>
 
     <div v-if="author.location || author.links.length" class="author__urls-wrapper">
-      <button ref="followButton" class="btn btn--inverse" @click="toggleFollowList">Follow</button>
+      <button id="follow-button" class="btn btn--inverse" @click="toggleFollowList">Follow</button>
 
-      <ul ref="followList" class="author__urls social-icons">
+      <ul id="follow-list" class="author__urls social-icons">
         <!-- location -->
         <li v-if="author.location" itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
           <i class="fa-solid fa-location-arrow fa-fw" aria-hidden="true"></i>
@@ -55,8 +55,9 @@
 
 <script lang="ts" setup>
 import { useThemeData } from '../composables'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { onBeforeRouteUpdate } from 'vue-router'
 
 const { author } = useThemeData().value
 
@@ -73,20 +74,27 @@ const toggleFollowList = () => {
   }
 }
 
-onClickOutside(
-  followList,
-  () => {
-    followList.value.style.display = null
-  },
-  {
-    ignore: [followButton],
-  }
-)
-
 onMounted(() => {
+  followList.value = document.querySelector<HTMLUListElement>('#follow-list')
+  followButton.value = document.querySelector<HTMLButtonElement>('#follow-button')
+
+  onClickOutside(
+    followList,
+    () => {
+      followList.value.style.display = null
+    },
+    {
+      ignore: [followButton],
+    }
+  )
+
   // when screen width > $large (1024px), show follow list
   window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
     followList.value.style.display = null
   })
+})
+
+onUnmounted(() => {
+  console.log('Author profile is unmounted.')
 })
 </script>
