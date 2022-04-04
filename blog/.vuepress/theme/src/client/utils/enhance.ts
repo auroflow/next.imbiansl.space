@@ -1,29 +1,33 @@
 import { defineClientAppEnhance } from '@vuepress/client'
 import Btn from '../widgets/Btn.vue'
 
+const makePromise = (obj: object, timeout: number) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(obj)
+    }, timeout)
+  })
+}
+
 export default defineClientAppEnhance(({ app, router, siteData }) => {
   app.component('Btn', Btn)
-
   router.options.scrollBehavior = (to, from) => {
-    if (to.hash) {
-      if (!from.name) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({ el: to.hash })
-          }, 250)
-        })
+    let behavior: object
+
+    if (from.path === to.path) {
+      if (to.hash) {
+        behavior = { el: to.hash, behavior: 'smooth' }
       } else {
-        return { el: to.hash }
+        behavior = { top: 0, behavior: 'smooth' }
       }
     } else {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ top: 0 })
-        }, 250)
-      })
+      if (to.hash) {
+        behavior = makePromise({ el: to.hash, behavior: 'smooth' }, 750)
+      } else {
+        behavior = makePromise({ top: 0, behavior: 'smooth' }, 750)
+      }
     }
-  }
 
-  router.options.linkActiveClass = ''
-  router.options.linkExactActiveClass = ''
+    return behavior
+  }
 })

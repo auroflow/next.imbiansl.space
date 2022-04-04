@@ -28,9 +28,9 @@
           >
             <li v-for="link in hiddenLinks" class="masthead__menu-item">
               <a v-if="isExternalLink(link.url)" href="link.url" title="link.description">{{ link.title }}</a>
-              <router-link v-else :to="{ path: link.url }" title="link.description"
-                >{{ link.title }} + internal</router-link
-              >
+              <router-link v-else :to="{ path: link.url }" title="link.description">
+                {{ link.title }}
+              </router-link>
             </li>
           </ul>
         </nav>
@@ -43,17 +43,16 @@
 <script lang="ts" setup>
 import { useSiteData } from '@vuepress/client'
 import { useThemeData } from '../composables'
-import { nextTick, onMounted, reactive, ref } from 'vue'
+import { nextTick, onMounted, onUnmounted, reactive, ref } from 'vue'
 import type { Ref } from 'vue'
 import _ from 'lodash'
-import { normalizeReturnObjectHook } from '@vuepress/core'
 
 const sitedata = useSiteData()
 const themedata = useThemeData()
 
 const isExternalLink = (link: string) => /^https?:\/\//.test(link)
 
-const visibleLinks = reactive(themedata.value.header.navigation)
+const visibleLinks = reactive([...themedata.value.header.navigation])
 const hiddenLinks = reactive([])
 const showHiddenLinks = ref(false)
 
@@ -68,11 +67,19 @@ onMounted(() => {
   let vlinkContainer = document.querySelector<HTMLDivElement>('#v-link-container')
 
   let initialVlinks = Array.from(vlinkContainer.children) as HTMLLIElement[]
-  initialVlinks.forEach((link) => {
-    numOfItems += 1
-    totalSpace += link.offsetWidth
-    breakWidths.push(totalSpace)
-  })
+  if (initialVlinks.length !== visibleLinks.length) {
+    // This is a nasty workaround when initialVlinks is not yet updated on mounted when
+    // routing to a new page.
+    for (let i = 0; i < visibleLinks.length; i++) {
+      breakWidths[i] = 100 * (i + 1)
+    }
+  } else {
+    initialVlinks.forEach((link) => {
+      numOfItems += 1
+      totalSpace += link.offsetWidth
+      breakWidths.push(totalSpace)
+    })
+  }
 
   let availableSpace: number
   let numOfVisibleItems: number
@@ -84,20 +91,19 @@ onMounted(() => {
     if (!vlinkContainer) return
     const button = document.querySelector<HTMLButtonElement>('#nav-toggle-button')
 
-    let vlinks = Array.from(vlinkContainer.children) as HTMLLIElement[]
     availableSpace = vlinkContainer.offsetWidth - button.offsetWidth
-    numOfVisibleItems = vlinks.length
+    numOfVisibleItems = visibleLinks.length
     // Note that there is a slight mismatch when the window breakpoint is triggered,
     // but this does not severely affect the layout.
     requiredSpace = breakWidths[numOfVisibleItems - 1]
 
+    console.log(numOfVisibleItems, JSON.stringify(breakWidths), availableSpace, requiredSpace)
+
     if (requiredSpace > availableSpace) {
       hiddenLinks.unshift(visibleLinks.pop())
-      numOfVisibleItems -= 1
       nextTick(check)
     } else if (availableSpace > breakWidths[numOfVisibleItems]) {
       visibleLinks.push(hiddenLinks.shift())
-      numOfVisibleItems += 1
       nextTick(check)
     }
 

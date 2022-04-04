@@ -93,8 +93,4 @@ onMounted(() => {
     followList.value.style.display = null
   })
 })
-
-onUnmounted(() => {
-  console.log('Author profile is unmounted.')
-})
 </script>

@@ -1,15 +1,19 @@
 <template>
-  <MastheadSection />
+  <Transition>
+    <div class="initial_content" :key="key">
+      <MastheadSection />
 
-  <div class="initial-content" :key="key">
-    <slot />
-  </div>
+      <div class="initial-content">
+        <slot />
+      </div>
 
-  <div id="footer" class="page__footer">
-    <footer>
-      <Footer />
-    </footer>
-  </div>
+      <div id="footer" class="page__footer">
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <style scss src="../styles/minimal-mistakes.scss"></style>
