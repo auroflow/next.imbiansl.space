@@ -97,8 +97,6 @@ onMounted(() => {
     // but this does not severely affect the layout.
     requiredSpace = breakWidths[numOfVisibleItems - 1]
 
-    console.log(numOfVisibleItems, JSON.stringify(breakWidths), availableSpace, requiredSpace)
-
     if (requiredSpace > availableSpace) {
       hiddenLinks.unshift(visibleLinks.pop())
       nextTick(check)

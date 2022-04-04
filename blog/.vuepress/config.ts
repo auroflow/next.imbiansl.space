@@ -47,15 +47,15 @@ module.exports = {
           title: 'Home',
         },
         {
-          url: '/tags',
+          url: '/tags/',
           title: 'Tags',
         },
         {
-          url: '/categories',
+          url: '/categories/',
           title: 'Categories',
         },
         {
-          url: '/formatting',
+          url: '/formatting/',
           title: 'Sample',
         },
       ],
