@@ -48,7 +48,7 @@ $$\begin{align} dp_{root,j,0}=max\{dp_{root,j-k,1}+dp_{son,k-1,0}\}\\dp_{root,j,
 
 我们需要理解这道题的具体实现。树形 DP 常常使用 DFS 求解，下面，我们看看这道题的 dfs 函数：
 
-```c++
+```cpp
 void dfs(int root, int father) {  
   for (int i = head[root]; i != -1; i = edge[i].next) {  
     int son = edge[i].v;  
@@ -104,7 +104,7 @@ $$dp_{root,j-k,1}+dp_{son_2,k-2,1}=dp_{son_1,j-k-2,1}+dp_{son_2,k-2,1}$$
 
 回头想想，这个问题很像 01 背包——从这行代码就能看出来：
 
-```c++
+```cpp
 for (int j = s; j >= 1; j--)
 ```
 

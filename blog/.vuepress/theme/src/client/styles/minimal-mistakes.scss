@@ -7,8 +7,8 @@
 /* Variables */
 @import 'minimal-mistakes/variables';
 
-/* Theme */
-@import 'minimal-mistakes/skins/dark';
+// /* Theme */
+// @import 'minimal-mistakes/skins/dark';
 
 /* Mixins and functions */
 @import 'minimal-mistakes/vendor/breakpoint/breakpoint';
@@ -43,5 +43,3 @@
 @import 'minimal-mistakes/sidebar';
 @import 'minimal-mistakes/print';
 
-/* Mathjax */
-@import 'minimal-mistakes/math';

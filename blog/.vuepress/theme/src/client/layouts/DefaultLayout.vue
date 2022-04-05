@@ -28,9 +28,10 @@ import Footer from '../components/Footer.vue'
 const pagedata = usePageData()
 const route = useRoute()
 let key = computed(() => {
-  if (route.query.page) {
-    return `${pagedata.value.key}-${route.query.page}`
+  let result = pagedata.value.key
+  for (let q in route.query) {
+    result += '-' + q + '-' + route.query[q]
   }
-  return pagedata.value.key
+  return result
 })
 </script>

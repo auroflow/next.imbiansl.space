@@ -156,6 +156,10 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
           el.removeAttribute('href')
         }
       })
+      // hide line-numbers blocks in reader mode
+      root.querySelectorAll('.line-numbers').forEach((el) => {
+        el.setAttribute('hidden', '')
+      })
       page.contentRendered = root.toString()
 
       if (app.env.isBuild && page.frontmatter.mathjax) {
@@ -198,7 +202,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
         delete page.frontmatter.category
       }
 
-      // tags and categories have to be arrays
+      // tags and categories should be arrays
       if (page.frontmatter.tags) {
         page.frontmatter.tags = Array.isArray(page.frontmatter.tags) ? page.frontmatter.tags : [page.frontmatter.tags]
       }
@@ -227,9 +231,9 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
 
       for (const page of app.pages) {
         // hidden articles or articles without a date will not be added to any list
-        if (page.frontmatter.hidden) continue
-
         const frontmatter: MinimalMistakesPageFrontmatter = page.frontmatter
+
+        if (frontmatter.hidden) continue
         const pageEntry = getPageEntry(page)
 
         // add to all articles if
@@ -349,6 +353,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
     },
 
     plugins: [
+      ['@vuepress/nprogress'],
       [
         '@vuepress/plugin-theme-data',
         // the default theme data object

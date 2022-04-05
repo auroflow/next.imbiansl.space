@@ -24,7 +24,7 @@ mathjax: true
 
 ## Code
 
-```javascript:no-line-numbers{3}
+```javascript
 document
   .getElementById('#button')
   .addEventListener('click', (event) => { 
@@ -32,7 +32,7 @@ document
   })
 ```
 
-```cpp{1,6-8}
+```cpp
 #include <iostream>
 #include <memory>
 

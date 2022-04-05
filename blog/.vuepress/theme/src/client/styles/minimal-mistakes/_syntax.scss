@@ -14,15 +14,6 @@ figure.highlight {
   display: flex;
   background-color: $code-background-color;
   font-style: normal;
-  padding-left: 0.25em;
-
-  > .line-numbers {
-    color: $light-gray;
-    text-align: right;
-    padding: 1em 0 1em 1em;
-    flex-basis: 1em;
-    order: 1;
-  }
 
   > pre,
   pre.highlight,
@@ -32,7 +23,8 @@ figure.highlight {
     flex-grow: 1;
     order: 2;
     margin: 0;
-    padding: 1em 1em 1em 1.25em;
+    border-left: 1em;
+    padding: 1em 1.25em;
     border-radius: $border-radius;
   }
 
@@ -52,10 +44,27 @@ figure.highlight {
   }
 }
 
+div[class^='language-'].line-numbers-mode {
+  > .line-numbers {
+    display: block;
+    color: $light-gray;
+    text-align: right;
+    padding: 1em 1em 1em 1.25em;
+    flex-basis: 1em;
+    order: 1;
+  }
+
+  > pre,
+  pre.highlight,
+  pre.shiki {
+    padding-left: 0;
+  }
+}
+
 @include breakpoint(max-width $medium) {
   section.page__content > div[class^='language-'] {
-    margin-left: -16px;
-    margin-right: -16px;
+    margin-left: -1rem;
+    margin-right: -1rem;
     
     padding-right: 0;
     border-radius: 0;

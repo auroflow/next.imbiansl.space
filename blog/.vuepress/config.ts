@@ -55,8 +55,12 @@ module.exports = {
           title: 'Categories',
         },
         {
+          url: '/collections/',
+          title: 'Collections',
+        },
+        {
           url: '/formatting/',
-          title: 'Sample',
+          title: 'About',
         },
       ],
     },

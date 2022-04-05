@@ -11,5 +11,8 @@ export interface MinimalMistakesPageFrontmatter extends PageFrontmatter {
   share?: boolean
 
   /** Defines which list to render if the layout is postlist */
-  list_type?: 'posts' | 'tags' | 'categories'
+  list_type?: 'posts' | 'tags' | 'categories' | 'collections'
+
+  /** Whether the page should appear in any list and is included in page navigation */
+  hidden?: boolean
 }

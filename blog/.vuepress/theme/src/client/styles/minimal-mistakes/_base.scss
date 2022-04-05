@@ -357,3 +357,9 @@ input[type='submit'],
   -webkit-transition: $global-transition;
   transition: $global-transition;
 }
+
+/* nprogress */
+#nprogress .bar {
+  height: 3px;
+  background-color: #2f7d95;
+}
