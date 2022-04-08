@@ -66,7 +66,7 @@ onMounted(() => {
 
   let vlinkContainer = document.querySelector<HTMLDivElement>('#v-link-container')
 
-  let initialVlinks = Array.from(vlinkContainer.children) as HTMLLIElement[]
+  let initialVlinks = Array.from(vlinkContainer?.children) as HTMLLIElement[]
   if (initialVlinks.length !== visibleLinks.length) {
     // This is a nasty workaround when initialVlinks is not yet updated on mounted when
     // routing to a new page.

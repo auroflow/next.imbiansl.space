@@ -16,7 +16,7 @@
   </Transition>
 </template>
 
-<style scss src="../styles/minimal-mistakes.scss"></style>
+<style lang="scss" src="../styles/minimal-mistakes.scss"></style>
 
 <script setup lang="ts">
 import { computed } from 'vue'

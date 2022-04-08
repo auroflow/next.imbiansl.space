@@ -29,22 +29,17 @@ module.exports = {
       location: 'The earth',
       links: [
         {
-          label: 'Email',
-          icon: 'fa-solid fa-envelope',
-          url: 'mailto:my@email.com',
-        },
-        {
-          label: 'Twitter',
-          icon: 'fa-brands fa-twitter',
-          url: 'https://twitter.com',
+          label: 'GitHub',
+          icon: 'fa-brands fa-github',
+          url: 'https://github.com/golden-flow',
         },
       ],
     },
     header: {
       navigation: [
         {
-          url: '/',
-          title: 'Home',
+          url: '/posts/',
+          title: 'Posts',
         },
         {
           url: '/tags/',
@@ -59,7 +54,7 @@ module.exports = {
           title: 'Collections',
         },
         {
-          url: '/formatting/',
+          url: '/posts/2017/07/30/record-of-building-site/',
           title: 'About',
         },
       ],
@@ -68,19 +63,9 @@ module.exports = {
       feed: '',
       links: [
         {
-          label: 'Twitter',
-          icon: 'fa-brands fa-twitter-square',
-          url: 'https://twitter.com',
-        },
-        {
-          label: 'Instagram',
-          icon: 'fa-brands fa-instagram',
-          url: 'https://instagram.com',
-        },
-        {
           label: 'GitHub',
           icon: 'fa-brands fa-github-square',
-          url: 'https://github.com',
+          url: 'https://github.com/golden-flow',
         },
       ],
     },

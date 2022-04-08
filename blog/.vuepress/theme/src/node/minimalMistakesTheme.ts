@@ -1,4 +1,4 @@
-import type { Page, Theme } from '@vuepress/core'
+import type { Page, PageOptions, Theme } from '@vuepress/core'
 import { fs, path } from '@vuepress/utils'
 import anchor from 'markdown-it-anchor'
 import { Articles, getPageEntry, MinimalMistakesThemeData, PageEntry } from '../shared'
@@ -7,7 +7,6 @@ import mdMathjaxSvg from 'markdown-it-mathjax3'
 import { MinimalMistakesPageFrontmatter } from '../shared'
 import { parse } from 'node-html-parser'
 import { isLinkExternal } from '@vuepress/shared'
-
 const mj = mdMathjax()
 
 const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app) => {
@@ -30,7 +29,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
    * @param page The Page or PageEntry to be checked
    */
   const isPost = (page: Page | PageEntry) => {
-    return /^\/posts\/[^/]+/.test(page.path)
+    return /^\/posts\/[^\/]+/.test(page.path)
   }
 
   /**
@@ -38,7 +37,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
    * @param page The Page or PageEntry to be checked
    */
   const isInCollection = (page: Page | PageEntry) => {
-    return /^\/collections\/[^/]+/.test(page.path)
+    return /^\/collections\/[^\/]+/.test(page.path)
   }
 
   /**
@@ -83,7 +82,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
     templateDev: path.resolve(__dirname, '../../templates/index.dev.html'),
     templateBuild: path.resolve(__dirname, '../../templates/index.build.html'),
 
-    clientAppEnhanceFiles: path.resolve(__dirname, '../client/utils/enhance.ts'),
+    clientAppEnhanceFiles: path.resolve(__dirname, '../client/scripts/enhance.ts'),
 
     extendsMarkdownOptions: (markdownOptions, app) => {
       markdownOptions.links = {
@@ -120,7 +119,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
     extendsPageOptions: (pageOptions, app) => {
       // page frontmatter is not yet defined
 
-      // default frontmatter
+      // default frontmatterenh
       if (pageOptions.filePath?.startsWith(app.dir.source('posts/'))) {
         // Posts are in /posts
         pageOptions.frontmatter = Object.assign(pageOptions.frontmatter ?? {}, {
@@ -137,7 +136,7 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
       } else if (pageOptions.filePath?.startsWith(app.dir.source('collections/'))) {
         // Pages are in /collections
         pageOptions.frontmatter = Object.assign(pageOptions.frontmatter ?? {}, {
-          author: true,
+          author: false,
           share: true,
         })
       }
@@ -185,6 +184,11 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
         if (!page.frontmatter.date && /^\d{4}-\d{2}-\d{2}-/.test(filename)) {
           page.frontmatter.date = filename.slice(0, 10)
         }
+      }
+
+      // Add collection name to frontmatter
+      if (isInCollection(page)) {
+        page.frontmatter.collection = getCollection(page)
       }
 
       // standardize date to string

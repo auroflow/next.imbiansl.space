@@ -10,6 +10,7 @@ tags:
   - 冥想
 ---
 
+<img src="/assets/images/ordinary-youth/sun-flower.gif" style="margin-bottom: .5em; width:100%">
 
 中秋假期，我参与了在体育馆举办的「放飞梦想青春歌会」，最近刚在电视上播出。美其名曰「参与」，其实就是当个观众，拉拉歌，挥舞一下国旗、荧光棒之类的。那天像­我这样的观众据说有两千多人，所有人一同摇起荧­光棒，场面还是相当壮观的。
 

@@ -127,7 +127,7 @@ a_n = c_1a_{n-1}+c_2a_{n-2}+\dots+c_ka_{n-k}+F(n)
 
 **定理**：假设 $\{a_n\}$ 满足线性非齐次递推关系
 
-$$\begin{align} a_n = c_1a_{n-1}+c_2a_{n-2}+\dots+c_ka_{n-k}+F(n) \end{align}$$
+$\begin{align} a_n = c_1a_{n-1}+c_2a_{n-2}+\dots+c_ka_{n-k}+F(n) \end{align}$
 
 其中 $c_1,c_2,\dots,c_k$ 是常数，且
 
@@ -203,7 +203,7 @@ $$
 >
 > 在考虑支付顺序的情况下，n 张纸币产生 r 元的方案数就是生成函数
 >
-> $$\begin{align} (x+x^2+x^5)^n \end{align}$$
+> $\begin{align} (x+x^2+x^5)^n \end{align}$
 >
 > 中 $x^r$ 的系数，所以总的答案是
 >

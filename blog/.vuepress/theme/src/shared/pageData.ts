@@ -15,4 +15,12 @@ export interface MinimalMistakesPageFrontmatter extends PageFrontmatter {
 
   /** Whether the page should appear in any list and is included in page navigation */
   hidden?: boolean
+
+  header?: {
+    overlay_color?: string
+    overlay_image?: string
+    image?: string
+    image_description?: string
+    caption?: string
+  }
 }

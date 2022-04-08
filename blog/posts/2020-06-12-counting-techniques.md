@@ -20,7 +20,7 @@ tags:
 
 **乘法原理**：若 $A_1$、$A_2$、$\dots$、$A_n$ 是有穷集，则
 
-$\begin{align} \lvert A_1 \times A_2 \times \cdots \times A_m \rvert = \lvert A_1 \rvert \cdot \lvert A_2 \rvert \cdot \cdots \cdot \lvert A_m \rvert \end{align}$
+$$\begin{align} \lvert A_1 \times A_2 \times \cdots \times A_m \rvert = \lvert A_1 \rvert \cdot \lvert A_2 \rvert \cdot \cdots \cdot \lvert A_m \rvert \end{align}$$
 
 > 例：有穷集 $S$ 的子集数为 $2^{\lvert S \rvert}$，因为每个元素都有选或不选两种情况，一共有 $\lvert S \rvert$ 个元素。
 
@@ -122,7 +122,9 @@ $$\begin{align} \left( \begin{array}{c} n+1 \\ r+1 \end{array} \right) = \sum_{k
 
 证明：使用「插板法」。$n$ 元集的 $r$ 组合可以用 $n-1$ 个「｜」和 $r$ 个「＊」表示。例如，$4$ 元集的 $6$ 组合可以用 $3$ 个「｜」和 $6$ 个「＊」表示，其中一种组合方式如下：
 
-<p><center>＊＊｜＊｜｜＊＊＊</center></p>
+::: text-center
+＊＊｜＊｜｜＊＊＊
+:::
 
 这就表示，第 1 个元素选 2 个，第 2 个元素选 1 个，第 3 个元素选 0 个，第 4 个元素选 3 个。
 
@@ -185,7 +187,7 @@ j\\i
 
 **按照字典序生成下一个排列的算法：**
 
-```python
+```
 next_permutation(array a: {1, 2, ..., n} 的排列，不为 n, n-1, ..., 1):
 j := n-1
 while a[j] > a[j+1]
@@ -208,7 +210,7 @@ while (r < s)
 
 生成一个 $n$ 元集的**所有**组合，可以抽象为生成所有的 $n$ 位 0/1 位串。若选择第 k 个元素，则位串的第 k 位为 $1$，否则为 $0$。下面给出**生成下一个位串的算法**：
 
-```python
+```
 next_bit_string(bit-string b: {b[n-1], b[n-2], ..., b[1], b[0]}，不为 11...11):
 i := 0
 while b[i] = 1
@@ -220,7 +222,7 @@ b[i] := 1
 
 下面给出**按字典序生成下一个 $r$ 组合的算法**：
 
-```python
+```
 next_r_combination(array a: {1,2,...,n} 的 r 元真子集，递增，不为 {n-r+1, ..., n}):
 i := r
 while a[i] = n - r + i

@@ -95,3 +95,7 @@
     font-size: $type-size-7;
   }
 }
+
+.btn + .btn {
+  margin-left: 0.33em;
+}

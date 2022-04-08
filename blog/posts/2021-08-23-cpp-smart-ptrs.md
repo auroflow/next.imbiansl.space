@@ -12,6 +12,7 @@ tags:
 toc: true
 ---
 
+<div align="center"><img src="/assets/images/cpp-smart-ptrs/teaser.png" style="margin-bottom: .5em;width:100%"></div>
 
 <figcaption align="right"><a href="https://travisvroman.com/2021/05/07/c-raw-pointers-and-oop/">Source</a></figcaption>
 
@@ -82,21 +83,22 @@ Here Comes the Sun by The Beatles
 - 使用与普通指针无异。
 - 在 `PtrToSong` 离开作用域时，析构函数自动执行。
 
-<div class="notice--info">
-<strong>提示</strong>　<code>unique_ptr</code> 也可以指向数组：
+::: notice--info
+**提示**　`unique_ptr` 也可以指向数组：
 
 ```cpp
 unique_ptr<T[]> ptr_array(new T[SIZE]);
 ```
 
-需要注意的是这样定义的 <code>unique_ptr</code> 只支持 <code>[]</code> 运算符，而不支持 <code>*</code> 或 <code>-></code>。
-</div>
+需要注意的是这样定义的 `unique_ptr` 只支持 `[]` 运算符，而不支持 `*` 或 `->`。
+:::
 
-**提示**　可以用 <code>ptr.get()</code> 来获取 <code>ptr</code> 内部封装的传统指针。
-{: .notice--info}
+::: notice--info
+**提示**　可以用 `ptr.get()` 来获取 `ptr` 内部封装的传统指针。
+:::
 
-<div class="notice--warning">
-<p><strong>注意</strong>　<code>unique_ptr</code> 的构造函数实际上接受的是 <code>new</code> 返回的指针。但是，尽量不要用普通的指针变量来构造 <code>unique_ptr</code>。例如：</p>
+::: notice--warning
+**注意** `unique_ptr` 的构造函数实际上接受的是 `new` 返回的指针。但是，尽量不要用普通的指针变量来构造 `unique_ptr`。例如：
 
 ```cpp
 {
@@ -108,7 +110,7 @@ unique_ptr<T[]> ptr_array(new T[SIZE]);
 }
 ```
 
-<p>输出结果：</p>
+输出结果：
 
 ```
 Song()
@@ -119,8 +121,8 @@ double free or corruption (out)
 Aborted (core dumped)
 ```
 
-<p>当上面的代码块结束时，<code>song</code> 会被 <code>unique_ptr</code> 析构；同时，由于 <code>song</code> 是局部变量，它自身又会执行一次析构操作，引发堆栈问题。智能指针就是为了替代传统指针而存在的，所以尽量不要将它们共用。</p>
-</div>
+当上面的代码块结束时，`song` 会被 `unique_ptr` 析构；同时，由于 `song` 是局部变量，它自身又会执行一次析构操作，引发堆栈问题。智能指针就是为了替代传统指针而存在的，所以尽量不要将它们共用。
+:::
 
 下面，我们来展示 `unique_ptr` 的更多用法。为了展示智能指针的多态性，我们定义下面几个类，其中 `User` 是虚基类，`Student` 和 `Teacher` 继承自 `User`。
 
@@ -376,14 +378,16 @@ Destructing sp1...
 
 `Song` 对象没有内置的计数器，它是如何判断是否有 `shared_ptr` 指向它的呢？实际上，一个 `shared_ptr` 其实指向了两块内存：其拥有的资源，以及记录该内存资源信息的控制块。控制块中的引用计数器记录了该资源被多少个 `shared_ptr` 拥有。
 
+![Smart Pointers](/assets/images/cpp-smart-ptrs/shared-ptr.png)
 
 当用原生指针或 `unique_ptr` 初始化 `shared_ptr` 时，将会创建控制块，并设引用计数器为 1。若是用 `shared_ptr` 初始化另一个 `shared_ptr`，或是在两个 `shared_ptr` 间进行赋值操作时，将不会创建新的控制块，而是直接修改相应控制块中的引用计数器。例如，当执行上面的 `sp3.reset(new Song("Everybody Hurts", "R.E.M."));` 时，将会为 *Everybody Hurts* 创建控制块，引用计数器为 1；而 `sp3` 之前指向的 *Road To Nowhere* 引用计数器减 1。这样就保证了每个内存资源仅对应一个控制块，且引用计数正确。当引用计数为 0 时，内存资源将被回收。
 
+::: notice--info
 **提示**　可以用 `ptr.used_count()` 获取 `ptr` 拥有资源的引用计数。
-{: .notice--info}
+:::
 
 ::: notice--warning
-<p><strong>注意</strong>　和 <code>unique_ptr</code> 类似，不要使用普通的指针变量来初始化 <code>shared_ptr</code>。这可能会导致同一内存资源关联多个控制块，因为控制块的创建与否仅由 <code>shared_ptr</code> 的初始化方式决定。考虑以下代码：</p>
+**注意**　和 `unique_ptr` 类似，不要使用普通的指针变量来初始化 `shared_ptr`。这可能会导致同一内存资源关联多个控制块，因为控制块的创建与否仅由 `shared_ptr` 的初始化方式决定。考虑以下代码：
 
 ```cpp
 {
@@ -393,7 +397,7 @@ Destructing sp1...
 }
 ```
 
-<p>输出：</p>
+输出：
 
 ```
 Song()
@@ -401,7 +405,7 @@ Song()
 Segmentation fault (core dumped)
 ```
 
-<p>以上代码使得 <em>Lisztomania</em> 关联了两个控制块。两个控制块中的引用计数都会达到 0，从而使 <em>Lisztomania</em> 析构两次。直接用 <code>new</code> 初始化，将会减少类似错误的风险。</p>
+以上代码使得 *Lisztomania* 关联了两个控制块。两个控制块中的引用计数都会达到 0，从而使 *Lisztomania* 析构两次。直接用 `new` 初始化，将会减少类似错误的风险。
 :::
 
 ### `make_shared` 和工厂函数
