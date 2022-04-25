@@ -5,9 +5,14 @@
       Tags:
     </strong>
     <span itemprop="keywords">
-      <a v-for="tag in sortedTags" class="page__taxonomy-item p-category" rel="tag">
+      <router-link
+        :to="`/tags/#${slugify(tag)}`"
+        v-for="tag in sortedTags"
+        class="page__taxonomy-item p-category"
+        rel="tag"
+      >
         {{ tag }}
-      </a>
+      </router-link>
     </span>
   </p>
 
@@ -17,9 +22,14 @@
       Categories:
     </strong>
     <span itemprop="keywords">
-      <a v-for="category in sortedCategories" class="page__taxonomy-item p-category" rel="tag">
+      <router-link
+        :to="`/categories/#${slugify(category)}`"
+        v-for="category in sortedCategories"
+        class="page__taxonomy-item p-category"
+        rel="tag"
+      >
         {{ category }}
-      </a>
+      </router-link>
     </span>
   </p>
 
@@ -35,8 +45,8 @@
 <script lang="ts" setup>
 import { useSiteData } from '@vuepress/client'
 import { computed } from 'vue'
-import { usePageFrontmatter, usePageData } from '../composables'
-import { useArticles } from '../composables/useArticles'
+import { usePageFrontmatter } from '../composables'
+import { slugify } from '../scripts/slugify'
 
 const frontmatter = usePageFrontmatter()
 const sitedata = useSiteData()

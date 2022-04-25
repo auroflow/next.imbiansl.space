@@ -29,8 +29,9 @@ Enter file in which to save the key (/home/talentai/.ssh/id_rsa):
 /home/username/users/user1/.ssh/id_rsa
 ```
 
+::: notice--info
 这里好像不认 `~`，需要输入完整路径。
-{: .notice--info}
+:::
 
 然后提示输入 passphrase，这里最好输入以防止他人误操作。输入完成后，复制 `~/users/user1/.ssh/id_rsa.pub` 中的内容，前往 [GitHub 设置页面](https://github.com/settings/keys)，添加进 GitHub 账户。这里不需要使用 `ssh-add` 添加进 ssh-agent。
 

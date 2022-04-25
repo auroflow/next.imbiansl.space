@@ -278,8 +278,8 @@ const minimalMistakesTheme: Theme<MinimalMistakesThemeData> = (themeConfig, app)
         }
 
         // collections
-        if (isInCollection(page)) {
-          const collection = getCollection(page)
+        if (frontmatter.collection) {
+          const collection = frontmatter.collection
           if (!(collection in articles.collections)) {
             articles.collections[collection] = []
           }
